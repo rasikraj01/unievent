@@ -1,30 +1,30 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema();
 
-const eventSchema = new Schema({
+const eventSchema = mongoose.Schema({
     name :{
         type: String,
-        require: True,
+        require: true,
     },
     college:{
         type: String,
-        require: True
+        require: true
     },
     venue:{
         type: String,
-        require: True
+        require: true
     },
     description:{
         type: String,
-        require: True
+        require: true
     },
     society :{
         type:String,
-        require:True
+        require:true
     },
     link:{
         type: String,
-        require: True
+        require: true
     }
 
 });

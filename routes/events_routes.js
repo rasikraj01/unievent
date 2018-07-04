@@ -8,7 +8,7 @@ router.get('/event', (req, res) => {
         res.status(200).send(result);
     }).catch((err)=>{
         console.log(err);
-        
+
     })
 });
 
@@ -26,10 +26,10 @@ router.post('/event',(req, res) => {
     }).catch((next)=>{
     //    console.log(err)
     });
-    
+
 });
 
-router.put('event/:id', (req, res) => {
+router.put('/event/:id', (req, res) => {
     Event.findByIdAndUpdate({_id : req.params.id}, req.body).then(()=> {
         Event.findById({_id : req.params.id}).then((result) => {
             res.status(200).send(result);
@@ -40,7 +40,7 @@ router.put('event/:id', (req, res) => {
         console.log(err);
     });
 });
-router.delete('event/:id', (req, res) => {
+router.delete('/event/:id', (req, res) => {
     Event.findByIdAndRemove({_id : req.params.id}).then((result)=> {
         res.status(200).send(result)
     }).catch((err) => {

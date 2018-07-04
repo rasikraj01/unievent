@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/ninjago');
+mongoose.connect('mongodb://localhost/unievent');
 mongoose.Promise = global.Promise;
 
 const routes = require('./routes/events_routes');
