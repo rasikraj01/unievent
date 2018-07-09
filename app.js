@@ -2,9 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const KEY = require('./config/key');
 
 // mongoose.connect('mongodb://localhost:27017/univent', { useNewUrlParser: true });
-mongoose.connect('mongodb://univent_rasik:rasik123@ds231941.mlab.com:31941/univent', { useNewUrlParser: true });
+mongoose.connect(`mongodb://${KEY.mLab_id}:${KEY.mLab_password}.mlab.com:31941/univent`, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 const routes = require('./routes/events_routes');

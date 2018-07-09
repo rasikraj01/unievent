@@ -1,11 +1,11 @@
 {
-  "name": "unievent",
+  "name": "univent",
   "version": "1.0.0",
   "description": "App for college events",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "deploy": "gcloud app deploy", 
+    "deploy": "gcloud app deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rasik Raj",
