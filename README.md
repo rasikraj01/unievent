@@ -1,6 +1,6 @@
-# UniEvent
+# Univent
 
-This is the api for UniEvent App.
+This is the api for Univent App.
 
 
 ## How to use the API:
