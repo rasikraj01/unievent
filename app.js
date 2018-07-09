@@ -7,11 +7,7 @@ const mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost:27017/univent', { useNewUrlParser: true });
 //  mongodb://<dbuser>:<dbpassword>@ds231941.mlab.com:31941/univent
 
-try {
-   mongoose.connect('mongodb://univent_rasik:rasik123.mlab.com:31941/univent', { useNewUrlParser: true });
-} catch (e) {
-console.log(e);
-}
+mongoose.connect('mongodb://admin:admin123.mlab.com:31941/univent', { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 const routes = require('./routes/events_routes');
