@@ -21,7 +21,7 @@ app.use('/api', routes);
 
 //test route
 app.get('/', (req, res) => {
-   res.status(200).send("This is working");
+   res.status(200).send("This is working!!");
 });
 //error middleware
 app.use(function(err, req, res, next) {
