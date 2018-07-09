@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 
 // mongoose.connect('mongodb://localhost:27017/univent', { useNewUrlParser: true });
-mongoose.connect('mongodb://admin:admin123@ds231941.mlab.com:31941/univent', { useNewUrlParser: true });
+mongoose.connect('mongodb://admin>:admin123>@ds231941.mlab.com:31941/univent', { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 const routes = require('./routes/events_routes');
