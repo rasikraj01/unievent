@@ -26,13 +26,24 @@ const eventSchema = mongoose.Schema({
         type: String,
         require: true
     },
+    cover_link:{
+      type:String,
+      require:true
+   },
     number_of_participants :{
       type:Number,
       require: true
    },
    date: {
-      type : Date,
-      require: true
+      day:{
+         type:Number
+      },
+      month:{
+         type:Number
+      },
+      Year:{
+         type:Number
+      }
    },
    prizes_worth: {
       type: String,
