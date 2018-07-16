@@ -1,21 +1,28 @@
 {
-  "name": "unievent",
+  "name": "univent",
   "version": "1.0.0",
-  "description": "App for college events",
+  "description": "app for college fest",
   "main": "app.js",
-  "scripts": {
-    "start": "node app.js",
-    "deploy": "gcloud app deploy",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Rasik Raj",
-  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "mongoose": "^5.2.1",
+    "passport-github": "^1.1.0"
   },
   "devDependencies": {
-    "nodemon": "^1.17.5"
-  }
+    "nodemon": "^1.18.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rasikraj01/unievent.git"
+  },
+  "author": "rasik raj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rasikraj01/unievent/issues"
+  },
+  "homepage": "https://github.com/rasikraj01/unievent#readme"
 }

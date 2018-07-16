@@ -4,7 +4,7 @@ const Event = require('../models/event');
 const router = express.Router();
 
 router.get('/event', (req, res) => {
-    Event.find({}).then((result)=>{
+    Event.find(req.query).then((result)=>{
         res.status(200).send(result);
     }).catch((err)=>{
         console.log(err);

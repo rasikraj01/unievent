@@ -16,6 +16,8 @@ To edit an event put : make a **PUT** request @ `/api/event/<id_of_event>`
 
 To delete an event : make a **DELETE** request @ `/api/event/<id_of_event>`
 
+To filter events : make a **GET** request @ `/api/event/?<property>=<value>` and to add multiple properties together use the `&` symbol `/api/event/?<property1>=<value1>&<property2>=<value2>`
+
 
 
 Structure of the JSON object to be sent to the server :
