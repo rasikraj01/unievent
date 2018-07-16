@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema();
 
 const eventSchema = mongoose.Schema({
-    name :{
+    name:{
         type: String,
         require: true,
     },
@@ -22,10 +22,22 @@ const eventSchema = mongoose.Schema({
         type:String,
         require:true
     },
-    link:{
+    form_link:{
         type: String,
         require: true
-    }
+    },
+    number_of_participants :{
+      type:Number,
+      require: true
+   },
+   date: {
+      type : Date,
+      require: true
+   },
+   prizes_worth: {
+      type: String,
+      require: true
+   }
 
 });
 
