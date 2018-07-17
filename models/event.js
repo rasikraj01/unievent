@@ -4,23 +4,23 @@ const Schema = mongoose.Schema();
 const eventSchema = mongoose.Schema({
     name:{
         type: String,
-        require: true,
+        required: true,
     },
     college:{
         type: String,
-        require: true
+        required: true
     },
     venue:{
         type: String,
-        require: true
+        required: true
     },
     description:{
         type: String,
-        require: true
+        required: true
     },
     society :{
         type:String,
-        require:true
+        required:true
     },
     form_link:{
         type: String,
@@ -28,11 +28,11 @@ const eventSchema = mongoose.Schema({
     },
     cover_link:{
       type:String,
-      require:true
+      required:true
    },
     number_of_participants :{
       type:Number,
-      require: true
+      required: true
    },
    date: {
       day:{
@@ -47,7 +47,7 @@ const eventSchema = mongoose.Schema({
    },
    prizes_worth: {
       type: String,
-      require: true
+      required: true
    }
 
 });
