@@ -62,16 +62,22 @@ router.put('/:id', passport.authenticate('jwt', {session : true}) /*add authoriz
 
 
 router.delete('/:id', passport.authenticate('jwt', {session : true}) /*add authorization*/,(req, res) => {
-   Event.findById({_id : req.params.id}).then((result) => {
-      if(result.user === req.user.id){
-         Event.findOneAndDelete({_id : req.params.id}).then((deleted_event) => {
-            res.status(200).json(deleted_event)
+   if(req.params.id){
+         // add record not found condition ps invalid id
+         Event.findById({_id : req.params.id}).then((result) => {
+            if(result.user == req.user.id){
+               Event.findOneAndDelete({_id : req.params.id}).then((deleted_event) => {
+                  res.status(200).json(deleted_event)
+               }).catch((err) => {console.log(err);})
+            }
+            else {
+               res.json({message: 'You are not authorized to Delete this Event'})
+            }
          }).catch((err) => {console.log(err);})
-      }
-      else {
-         res.json({message: 'You are not authorized to Delete this Event'})
-      }
-   }).catch((err) => {console.log(err);})
+   }
+   else {
+      res.json({message: 'invalid deleted request'})
+   }
 })
 
 module.exports = router;
