@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 
 // tentative
 const profileSchema = mongoose.Schema({
+      user: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref:'users'
+      },
       username :{
          type: String,
          required: true,
@@ -17,7 +21,7 @@ const profileSchema = mongoose.Schema({
          type:String,
          required:true
       },
-      course:{// field of study
+      field_of_study:{// field of study
          type: String,
          required: true
       },

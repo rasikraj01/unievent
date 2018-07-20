@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 // routes
 app.use('/api/user', user_routes);
 //app.use('/api/event', event_routes);
-//app.use('/api/profile', profile_routes);
+app.use('/api/profile', profile_routes);
 
 
 app.get('/', (req,res) => {
