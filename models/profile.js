@@ -3,15 +3,10 @@ const mongoose = require('mongoose');
 
 // tentative
 const profileSchema = mongoose.Schema({
-      display_name :{
-         first_name : {
-            type: String,
-            required: true
-         },
-         last_name :{
-            type:String,
-            required: false
-         }
+      username :{
+         type: String,
+         required: true,
+         max: 30
       },
       mobile_number :{
          type: String,
