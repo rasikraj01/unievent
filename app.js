@@ -1,36 +1,40 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const passport = require('passport');
 
-const Keys = require('./config/keys');
-const event_routes = require('./routes/events_routes');
+//route imports
+const event_routes = require('./routes/api/event_routes');
+const profile_routes = require('./routes/api/profile_routes');
+const user_routes = require('./routes/api/user_routes');
 
+// passport import
+require('./config/passport-setup')(passport)
 
-const PORT = process.env.PORT || 3000;
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-//mongoose.connect('mongodb://localhost:27017/univent', { useNewUrlParser: true });
-//mongoose.connect(Keys.monogdb.dbURI, { useNewUrlParser: true });
-mongoose.connect('mongodb://admin:admin123@ds231941.mlab.com:31941/univent', { useNewUrlParser: true })
-         .then(() => {console.log('mongoose db connected ')})
-         .catch((err) => {console.log(err)})
-
+//mongoose setup
+mongoose.connect('mongodb://localhost:27017/univent', { useNewUrlParser: true }).then(() => console.log('mongoose running on DEV MACHINE'));
 mongoose.Promise = global.Promise;
 
+
+// passport init
+app.use(passport.initialize());
+
+
+// middleware
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-//routes middleware
-app.use('/api', event_routes);
+// routes
+app.use('/api/user', user_routes);
+//app.use('/api/event', event_routes);
+//app.use('/api/profile', profile_routes);
 
-//test route
-app.get('/', (req, res) => {
-   res.status(200).send("This is working");
-});
-//error middleware
-app.use(function(err, req, res, next) {
-    res.status(422).send(err.message);
-});
 
-app.listen(PORT , () => {
-   console.log(`Serving running at : ${PORT}`);
+app.get('/', (req,res) => {
+   res.send('working')
 })
+
+app.listen(PORT, () => {console.log(PORT);})
