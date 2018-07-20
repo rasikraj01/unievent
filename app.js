@@ -8,14 +8,30 @@ const event_routes = require('./routes/api/event_routes');
 const profile_routes = require('./routes/api/profile_routes');
 const user_routes = require('./routes/api/user_routes');
 
-// passport import
+
+// passport config import
 require('./config/passport-setup')(passport)
+
+/****************
+
+TODO:
+1. Authorization of routes
+2. Image Links
+3. Keys protection
+4. Code cleanUp
+5. Data Validations
+
+
+****************/
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-//mongoose setup
+// mongoose connection
+// require('./config/connection.js')();
 mongoose.connect('mongodb://localhost:27017/univent', { useNewUrlParser: true }).then(() => console.log('mongoose running on DEV MACHINE'));
+//mongoose.connect('mongodb://admin:admin123@ds231941.mlab.com:31941/univent', { useNewUrlParser: true }).then(() => console.log('mongoose running on DEV MACHINE'));
+
 mongoose.Promise = global.Promise;
 
 
