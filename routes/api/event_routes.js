@@ -11,22 +11,22 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
    Event.find(req.query).then((result) => {
-      if(result){
-         res.status(200).json(result)
+      if(result.length === 0){
+         res.json({message : 'query does not match any Event'})
       }
       else {
-         res.json({message : 'query does not match any Event'})
+         res.status(200).json(result)
       }
    }).catch((err) => {console.log(err);})
 })
 
 router.get('/:id', (req, res) => {
    Event.findById({_id : req.params.id}).then((result) => {
-      if(result){
-         res.json(result)
+      if(result.length === 0){
+         res.status(404).json({message : 'Event not Found'})
       }
       else {
-         res.status(404).json({message : 'Event not Found'})
+         res.json(result)
       }
    }).catch((err) => {console.log(err)})
 })
@@ -62,7 +62,16 @@ router.put('/:id', passport.authenticate('jwt', {session : true}) /*add authoriz
 
 
 router.delete('/:id', passport.authenticate('jwt', {session : true}) /*add authorization*/,(req, res) => {
-
+   Event.findById({_id : req.params.id}).then((result) => {
+      if(result.user === req.user.id){
+         Event.findOneAndDelete({_id : req.params.id}).then((deleted_event) => {
+            res.status(200).json(deleted_event)
+         }).catch((err) => {console.log(err);})
+      }
+      else {
+         res.json({message: 'You are not authorized to Delete this Event'})
+      }
+   }).catch((err) => {console.log(err);})
 })
 
 module.exports = router;

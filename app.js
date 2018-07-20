@@ -21,7 +21,13 @@ mongoose.Promise = global.Promise;
 
 // passport init
 app.use(passport.initialize());
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
 
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 // middleware
 app.use(bodyParser.urlencoded({extended: false}));
