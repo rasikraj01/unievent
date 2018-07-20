@@ -18,9 +18,12 @@ TODO:
 1. Authorization of routes
 2. Image Links
 3. Keys protection
-4. Code cleanUp
+4. Code cleanUp and comments
 5. Data Validations
-
+6. Update Readme
+7. Event Model Restructing ?
+8. Add profile routes
+9. 
 
 ****************/
 
