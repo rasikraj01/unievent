@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema();
 
 const eventSchema = mongoose.Schema({
-    name:{
+   name:{
         type: String,
         required: true,
     },
@@ -34,24 +33,15 @@ const eventSchema = mongoose.Schema({
       type:Number,
       required: true
    },
-   date: {
-      day:{
-         type:Number
-      },
-      month:{
-         type:Number
-      },
-      Year:{
-         type:Number
-      }
+   date : {
+      type: Date,
+      required: true
    },
    prizes_worth: {
       type: String,
       required: true
    }
-
 });
 
-const EventModel = mongoose.model('Event', eventSchema);
-
-module.exports = EventModel;
+const Event = mongoose.model('event', eventSchema);
+module.exports = Event;

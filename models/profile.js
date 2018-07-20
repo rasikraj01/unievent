@@ -15,22 +15,22 @@ const profileSchema = mongoose.Schema({
       },
       mobile_number :{
          type: String,
-         required:true
+         required:true,
+         // max:10 ?
       },
       college:{
          type:String,
          required:true
       },
-      course:{
+      course:{// field of study
          type: String,
          required: true
       },
-      year:{
+      year:{//1st, 2nd, 3rd, 4th, 5th
          type: Number,
          required: true
       }
 });
 
-const Profile = mongoose.model('Profile', profileSchema);
-
+const Profile = mongoose.model('profile', profileSchema);
 module.exports = Profile;
