@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 
 const eventSchema = mongoose.Schema({
-   name:{
+   user:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'users'
+   },
+   event_name:{
         type: String,
         required: true,
     },
-    college:{
+    host_college:{
         type: String,
         required: true
     },
@@ -35,7 +39,9 @@ const eventSchema = mongoose.Schema({
    },
    date : {
       type: Date,
-      required: true
+      required: true,
+      //abhi k liye hai ye bs remember to remove
+      default : Date.now
    },
    prizes_worth: {
       type: String,
