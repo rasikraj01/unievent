@@ -35,7 +35,7 @@ router.post('/', passport.authenticate('jwt', {session:false}), (req, res) => {
          field_of_study : req.body.field_of_study,
          year : req.body.year
    }// TODO : make sure username is unique
-   Profile.findOne({user : req.user.id}).then((result) => {u
+   Profile.findOne({user : req.user.id}).then((result) => {
       if(result){
          //update a profile
          Profile.findOneAndUpdate({user : req.user.id}, {$set : profileF}, {new: true }).then((result) => {
@@ -47,7 +47,7 @@ router.post('/', passport.authenticate('jwt', {session:false}), (req, res) => {
          const newProfile = new Profile(profileF);
          newProfile.save().then((result) => {res.json(result)}).catch((err) => console.log(err))
       }
-   })
+   }).catch((err) => {console.log(err);})
 })
 
 module.exports = router;

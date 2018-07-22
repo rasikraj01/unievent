@@ -74,8 +74,10 @@ router.put('/:id', passport.authenticate('jwt', {session : true}) /*add authoriz
                   date : req.body.date,
                   prizes_worth : req.body.prizes_worth,
                }
-                Event.findByIdAndUpdate({_id : req.params.id}, updatedEvent).then((result) => {
-                   res.json(result)
+                Event.findByIdAndUpdate({_id : req.params.id}, updatedEvent).then(() => {
+                   Event.findOne({_id : req.params.id}).then((result) => {
+                      res.json(result)
+                   }).catch((err) => {console.log(err);})
                 }).catch((err) => {console.log(err);})
             }
             else {
@@ -94,8 +96,8 @@ router.delete('/:id', passport.authenticate('jwt', {session : true}) /*add autho
          // add record not found condition ps invalid id
          Event.findById({_id : req.params.id}).then((result) => {
             if(result.user == req.user.id){
-               Event.findOneAndDelete({_id : req.params.id}).then((deleted_event) => {
-                  res.status(200).json(deleted_event)
+               Event.findOneAndDelete({_id : req.params.id}).then(() => {
+                  res.status(200).json({message : "your event is deleted"})
                }).catch((err) => {console.log(err);})
             }
             else {

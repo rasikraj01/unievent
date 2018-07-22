@@ -24,6 +24,8 @@ TODO:
 7. Event Model Restructing ?
 8. Add profile routes
 9. Edge Cases review
+10. popuplate
+11. heroku enviroment variables
 
 ****************/
 
@@ -33,7 +35,6 @@ const PORT = process.env.PORT || 3000;
 // mongoose connection
 require('./config/connection.js')();
 //mongoose.connect('mongodb://localhost:27017/univent', { useNewUrlParser: true }).then(() => console.log('mongoose running on DEV MACHINE'));
-//mongoose.connect('mongodb://admin:admin123@ds231941.mlab.com:31941/univent', { useNewUrlParser: true }).then(() => console.log('mongoose running on DEV MACHINE'));
 
 mongoose.Promise = global.Promise;
 
