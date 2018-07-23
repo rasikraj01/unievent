@@ -1,5 +1,4 @@
-const acc_authorization = (req, res, next) => {
-   // authorization logic goes here
+module.exports = function acc_type_authorization(req, res, next) {
    if(req.user.acc_type.toLowerCase() === 'organiser'){
       next();
    }
@@ -7,5 +6,3 @@ const acc_authorization = (req, res, next) => {
       res.redirect('/api/unauthorized');
    }
 }
-
-module.exports = acc_authorization;

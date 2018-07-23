@@ -7,6 +7,9 @@ const Event = require('../../models/event');
 const User = require('../../models/user');
 const Profile = require('../../models/profile');
 
+//middleware
+const acc_type_authorization = require('../../middleware/acc_type.middleware');
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -31,7 +34,8 @@ router.get('/:id', (req, res) => {
    }).catch((err) => {console.log(err)})
 })
 
-router.post('/', passport.authenticate('jwt', {session : true}) /*add authorization*/ ,(req, res) => {
+
+router.post('/', passport.authenticate('jwt', {session : true}) , acc_type_authorization ,(req, res) => {
    if(req.user){
       const newEvent = new Event({
          user: req.user.id,
@@ -56,7 +60,7 @@ router.post('/', passport.authenticate('jwt', {session : true}) /*add authorizat
 })
 
 
-router.put('/:id', passport.authenticate('jwt', {session : true}) /*add authorization*/,(req, res) => {
+router.put('/:id', passport.authenticate('jwt', {session : true}) , acc_type_authorization ,(req, res) => {
    if(req.params.id){
          // add record not found condition ps invalid id
          Event.findById({_id : req.params.id}).then((result) => {
@@ -91,7 +95,7 @@ router.put('/:id', passport.authenticate('jwt', {session : true}) /*add authoriz
 })
 
 
-router.delete('/:id', passport.authenticate('jwt', {session : true}) /*add authorization*/,(req, res) => {
+router.delete('/:id', passport.authenticate('jwt', {session : true}) ,acc_type_authorization ,(req, res) => {
    if(req.params.id){
          // add record not found condition ps invalid id
          Event.findById({_id : req.params.id}).then((result) => {
