@@ -24,7 +24,7 @@ TODO:
 7. Event Model Restructing ?
 8. Add profile routes
 9. Edge Cases review
-10. popuplate
+10. populate
 11. heroku enviroment variables
 
 ****************/
@@ -66,4 +66,7 @@ app.get('/', (req,res) => {
    res.send('working')
 })
 
+app.get('api/unauthorized', (req, res) => {
+   res.json({message : 'you are not authorized to access this page'})
+})
 app.listen(PORT, () => {console.log(`Sever running on PORT : ${PORT}`);})
