@@ -68,7 +68,7 @@ router.post('/login', (req, res) => {
 
 // to get the current user
 router.get('/current', passport.authenticate('jwt', {session : false}),(req, res) => {
-   //User.findOne({email : req.user.email}).then((rsul) => {console.log(rsul);})
+   //User.findOne({email : req.user.email}).then((result) => {console.log(result);})
    res.json(req.user);
 });
 
@@ -79,7 +79,6 @@ router.get('/logout', passport.authenticate('jwt', {session : false}), (req, res
 
 //to delete a user
 router.delete('/current', passport.authenticate('jwt', {session : false}), (req, res) => {
-
    User.findOneAndRemove({email : req.user.email}).then((result) => {
       if(result){
          res.json({message: 'User Deleted'})
@@ -88,8 +87,6 @@ router.delete('/current', passport.authenticate('jwt', {session : false}), (req,
          res.json({message: 'user not found'})
       }
    })
-   // destroy the jsonwebtoken ?
-   // delete the user profile
 })
 
 module.exports = router;

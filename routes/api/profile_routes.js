@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
-//
+// models import
 const User = require('../../models/user');
 const Profile = require('../../models/profile');
 
@@ -18,7 +18,7 @@ router.get('/', passport.authenticate('jwt', {session:false}), (req, res) => {
          else{
             res.json({message : 'user not found'})
          }
-      }).catch((err) => {console.log(err);})
+      }).catch((err) => {console.log(err)})
    }
    else{
       res.json({message : 'not logged in'})
@@ -40,14 +40,14 @@ router.post('/', passport.authenticate('jwt', {session:false}), (req, res) => {
          //update a profile
          Profile.findOneAndUpdate({user : req.user.id}, {$set : profileF}, {new: true }).then((result) => {
                res.json(result)
-         }).catch((err) => {console.log(err);})
+         }).catch((err) => {console.log(err)})
       }
       else{
          //check if username exsists if it doesnot then only save profile
          const newProfile = new Profile(profileF);
          newProfile.save().then((result) => {res.json(result)}).catch((err) => console.log(err))
       }
-   }).catch((err) => {console.log(err);})
+   }).catch((err) => {console.log(err)})
 })
 
 module.exports = router;

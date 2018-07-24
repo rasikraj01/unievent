@@ -12,6 +12,7 @@ const acc_type_authorization = require('../../middleware/acc_type.middleware');
 
 const router = express.Router();
 
+// get all events or filtered events
 router.get('/', (req, res) => {
    Event.find(req.query).then((result) => {
       if(result.length === 0){
@@ -20,9 +21,11 @@ router.get('/', (req, res) => {
       else {
          res.status(200).json(result)
       }
-   }).catch((err) => {console.log(err);})
+   }).catch((err) => {console.log(err)})
 })
 
+
+//get a unique event with id
 router.get('/:id', (req, res) => {
    Event.findById({_id : req.params.id}).then((result) => {
       if(result.length === 0){
@@ -35,6 +38,7 @@ router.get('/:id', (req, res) => {
 })
 
 
+//post an event
 router.post('/', passport.authenticate('jwt', {session : true}) , acc_type_authorization ,(req, res) => {
    if(req.user){
       const newEvent = new Event({
@@ -59,7 +63,7 @@ router.post('/', passport.authenticate('jwt', {session : true}) , acc_type_autho
    }
 })
 
-
+// edit an event
 router.put('/:id', passport.authenticate('jwt', {session : true}) , acc_type_authorization ,(req, res) => {
    if(req.params.id){
          // add record not found condition ps invalid id
@@ -81,13 +85,13 @@ router.put('/:id', passport.authenticate('jwt', {session : true}) , acc_type_aut
                 Event.findByIdAndUpdate({_id : req.params.id}, updatedEvent).then(() => {
                    Event.findOne({_id : req.params.id}).then((result) => {
                       res.json(result)
-                   }).catch((err) => {console.log(err);})
-                }).catch((err) => {console.log(err);})
+                   }).catch((err) => {console.log(err)})
+                }).catch((err) => {console.log(err)})
             }
             else {
                res.json({message: 'You are not authorized to Update this Event'})
             }
-         }).catch((err) => {console.log(err);})
+         }).catch((err) => {console.log(err)})
    }
    else {
       res.json({message: 'invalid update request'})
@@ -95,6 +99,7 @@ router.put('/:id', passport.authenticate('jwt', {session : true}) , acc_type_aut
 })
 
 
+// delete an event
 router.delete('/:id', passport.authenticate('jwt', {session : true}) ,acc_type_authorization ,(req, res) => {
    if(req.params.id){
          // add record not found condition ps invalid id
@@ -107,7 +112,7 @@ router.delete('/:id', passport.authenticate('jwt', {session : true}) ,acc_type_a
             else {
                res.json({message: 'You are not authorized to Delete this Event'})
             }
-         }).catch((err) => {console.log(err);})
+         }).catch((err) => {console.log(err)})
    }
    else {
       res.json({message: 'invalid delete request'})
