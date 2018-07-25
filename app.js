@@ -16,16 +16,15 @@ require('./config/passport-setup')(passport)
 /****************
 
 TODO:
-2. Image Links
+2. Image Storage
 3. Keys protection
 5. Data Validations
 7. Event Model Restructing ?
-8. Add profile routes
 9. Edge Cases review
 10. populate
 11. heroku enviroment variables
 12. Search
-13. Image Storage
+13. 2FA in profile routes
 
 ****************/
 

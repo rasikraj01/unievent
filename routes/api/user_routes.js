@@ -5,8 +5,10 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
 
+// models import
+const Event = require('../../models/event');
 const User = require('../../models/user');
-
+const Profile = require('../../models/profile');
 
 const router = express.Router();
 
@@ -53,7 +55,6 @@ router.post('/login', (req, res) => {
                   email : result.email,
                   acc_type : result.acc_type
                } //jwt payload
-
                jwt.sign(payload, 'abcssss', { expiresIn: 3600}, (err, token) => {
                   res.json({success: true, token: 'Bearer ' + token });
                })
@@ -77,16 +78,39 @@ router.get('/logout', passport.authenticate('jwt', {session : false}), (req, res
    res.json({message : 'destroy the token from header in frontend :P'})
 })
 
-//to delete a user
+//to delete a user and all its Data
 router.delete('/current', passport.authenticate('jwt', {session : false}), (req, res) => {
-   User.findOneAndRemove({email : req.user.email}).then((result) => {
+   let message = {};
+
+   if(req.user.acc_type === 'organiser'){
+      Event.remove({user : req.user.id}).then((result) => {
+         if(result){
+            message.events = 'all events deleted';
+         }else{
+            message.events = 'unable to delete events';
+         }
+      }).catch((err) => console.log(err))
+   }
+
+   Profile.findOneAndRemove({user: req.user.id}).then((result) => {
       if(result){
-         res.json({message: 'User Deleted'})
+         message.profile = 'profile deleted';
       }
       else{
-         res.json({message: 'user not found'})
+         message.profile = 'cant find profile';
       }
    })
+   
+   User.findOneAndRemove({email : req.user.email}).then((result) => {
+      if(result){
+         message.user = 'user deleted successfully';
+         res.json(message)
+      }
+      else{
+         message.user = 'user not found';
+         res.json(message)
+      }
+   }).catch((err) => console.log(err))
 })
 
 module.exports = router;
