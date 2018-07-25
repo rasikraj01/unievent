@@ -25,6 +25,7 @@ TODO:
 11. heroku enviroment variables
 12. Search
 13. 2FA in profile routes
+14. Make a website for docs
 
 ****************/
 
