@@ -79,8 +79,15 @@ If passwords don't match : `{"message": "incorrect password"}`
  
 	**ADD Token to request HEADER** ==>  *key:  Authorization, value : token*
 
-	JSON received if DELETE successful: `{ "message": "User Deleted"}`
-    
+	JSON received if DELETE successful:
+```
+{
+    "events": "all events deleted",
+    "profile": "profile deleted",
+    "user": "user deleted successfully"
+}
+```
+
 
 ### Profile Routes :
 
@@ -132,6 +139,15 @@ JSON received if POST successful:
     "__v": 0
 }
 ```
+
+* **:UPDATE:** To check if username is available __*requires auth header*__ : make a **GET** request @ `/api/profile/username/:<insert_username>`
+
+	**ADD Token to request HEADER** ==>  *key:  Authorization, value : token*
+
+JSON received if username available :  `{"message" : "Username Available"}`
+
+JSON received if username unavailable :  `{"message" : "Username Taken. Please Select a different Username"}`
+
 
 ### Event Routes : 
 
