@@ -22,7 +22,7 @@ h2{
    color: #607d8b;
    margin-top: .7em;
 }
-.login{
+.register{
    height: 40vh;
    width: 20vw;
    border-radius: .3em;
@@ -40,17 +40,18 @@ input{
    height: 2rem;
    margin: auto;
    font-size: .8rem;
+   margin:5px auto;
    padding: 5px;
 }
 
 
-input[type="email"]{
+input[type="text"]{
    margin-top: 2em;
 }
 
 input[type="submit"]{
    border-radius: .3em;
-   margin-top: 10px;
+   margin-top: 20px;
    color: white;
    border: none;
    background: #455a64;
