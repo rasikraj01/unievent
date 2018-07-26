@@ -47,6 +47,7 @@ const eventSchema = mongoose.Schema({
       type: String,
       required: true
    }
+   // contact org
 });
 
 const Event = mongoose.model('event', eventSchema);

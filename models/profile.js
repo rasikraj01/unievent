@@ -21,11 +21,11 @@ const profileSchema = mongoose.Schema({
          type:String,
          required:true
       },
-      field_of_study:{// field of study
+      field_of_study:{
          type: String,
          required: true
       },
-      year:{//1st, 2nd, 3rd, 4th, 5th
+      year:{
          type: Number,
          required: true
       }
