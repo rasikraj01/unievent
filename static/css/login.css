@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Slab');
+
+*{
+   margin: 0;
+   padding: 0;
+}
+body{
+   background: #e53935;
+   color: white;
+   font-family: 'Josefin Slab', serif;
+}
+h1{
+   font-size: 5rem;
+   width: 100vw;
+   margin-top : 1em;
+   text-align: center;
+}
+h2{
+   font-size: 3rem;
+   font-weight: 200;
+   text-align: center;
+}
+form{
+   height: 30vh;
+   width: 20vw;
+   border-radius: .3em;
+   margin:auto;
+   background: #ffffff;
+   padding: 10px;
+   margin-top: 5em;
+}
+input{
+   position: relative;
+   outline: none;
+   display: block;
+   width: 10rem;
+   height: 2rem;
+   margin: auto;
+   font-size: .8rem;
+}
+
+input[type="email"],
+input[type="password"]{
+   padding: 3px;
+}
+
+input[type="email"]{
+   margin-top: 2em;
+}
+
+input[type="submit"]{
+   border-radius: .3em;
+   color: white;
+   background: #455a64;
+   padding: 10px;
+   text-decoration: none;
+   cursor: pointer;
+   outline: none;
+}
