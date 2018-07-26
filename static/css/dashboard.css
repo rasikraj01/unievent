@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Slab');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+*{
+   margin: 0;
+   padding: 0;
+   font-family: 'roboto';
+}
+h1{
+   font-family: 'Josefin Slab', serif;
+   font-size: 40px;
+}
+.wrapper{
+   display: grid;
+   height: 100vh;
+   grid-template-columns: 2fr 9fr;
+   grid-template-rows: 1fr 11fr;
+}
+nav{
+   background: #e53935;
+   grid-column: 1/6;
+   color:white;
+   grid-row: 1/2;
+}
+nav ul{
+   position: relative;
+   padding: 10px;
+   list-style-type: none;
+}
+.sidebar{
+   background: #424242;
+   color: #e3e3e3;
+   grid-row: 2/8;
+}
+.content{
+   background: #fafafa;
+}
