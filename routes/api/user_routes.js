@@ -73,10 +73,11 @@ router.get('/current', passport.authenticate('jwt', {session : false}),(req, res
    res.json(req.user);
 });
 
-//to logout a user
+/* to logout a user
 router.get('/logout', passport.authenticate('jwt', {session : false}), (req, res) => {
    res.json({message : 'destroy the token from header in frontend :P'})
 })
+*/
 
 //to delete a user and all its Data
 router.delete('/current', passport.authenticate('jwt', {session : false}), (req, res) => {
@@ -100,7 +101,7 @@ router.delete('/current', passport.authenticate('jwt', {session : false}), (req,
          message.profile = 'cant find profile';
       }
    })
-   
+
    User.findOneAndRemove({email : req.user.email}).then((result) => {
       if(result){
          message.user = 'user deleted successfully';

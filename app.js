@@ -10,6 +10,7 @@ const event_routes = require('./routes/api/event_routes');
 const profile_routes = require('./routes/api/profile_routes');
 const user_routes = require('./routes/api/user_routes');
 const unauthorized_routes = require('./routes/api/unauthorized_routes');
+const organiser_routes = require('./routes/organiser_routes');
 
 
 // passport config import
@@ -69,8 +70,9 @@ app.use('/api/user', user_routes);
 app.use('/api/event', event_routes);
 app.use('/api/profile', profile_routes);
 app.use('/api/unauthorized', unauthorized_routes);
+app.use('/organiser', organiser_routes);
 
-// test-route
+// home-route
 app.get('/', (req,res) => {
    res.render('index', {a : 'test'})
 });
