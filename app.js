@@ -2,8 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const hbs = require('hbs');
+const path = require('path');
 
-//route imports
+
 const event_routes = require('./routes/api/event_routes');
 const profile_routes = require('./routes/api/profile_routes');
 const user_routes = require('./routes/api/user_routes');
@@ -24,8 +26,8 @@ TODO:
 10. populate
 11. heroku enviroment variables
 12. Search
-13. 2FA in profile routes
-14. Make a website for docs
+14. Make a website for docs -- NO
+15. Make UI for the organisers
 
 ****************/
 
@@ -49,6 +51,12 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
+// handlebars cconfig
+app.set('view engine', 'hbs');
+app.set('views',path.join(__dirname, 'views'));
+
+//static files
+app.use(express.static(path.join(__dirname, 'static')));
 
 
 // body-parser middleware
@@ -64,7 +72,7 @@ app.use('/api/unauthorized', unauthorized_routes);
 
 // test-route
 app.get('/', (req,res) => {
-   res.send('Test : working')
+   res.render('index', {a : 'test'})
 });
 
 
