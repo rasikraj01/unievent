@@ -22,7 +22,7 @@ h2{
    color: #607d8b;
    margin-top: .7em;
 }
-.login{
+#login{
    height: 40vh;
    width: 20vw;
    border-radius: .3em;

@@ -16,12 +16,13 @@ submit.addEventListener('click' , (e) => {
    }
    axios.post('/api/user/register', data)
       .then((res) => {
-            document.getElementById('register_submit').reset();
+            document.getElementById('register_form').reset();
             console.log(res.data);
             let success = `<a href="/organizer/login">Registeration successFull. <br> Click Here to Login</a>`;
             document.getElementById('register').innerHTML += success;
          })
       .catch((err) => {
+         document.getElementById('register_form').reset();
          console.log(err);
          document.getElementById('register').innerHTML += `<div>Error</div>`;
          })

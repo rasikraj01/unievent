@@ -8,15 +8,16 @@
    <body>
       <div class="container">
          <h1>UniVent</h1>
-         <div class="login">
+         <div id="login">
                <h2>Login</h2>
-               <form class="" action="#" method="post">
-                  <input autofocus name="email" placeholder="email" type="email"><br>
-                  <input  name="password" placeholder="password" type="password"><br>
-                  <input type="submit" name="Login" value="Login">
+               <form id="login_form">
+                  <input autofocus name="email" placeholder="email" type="email" id="email"><br>
+                  <input  name="password" placeholder="password" type="password" id="password"><br>
+                  <input type="submit" name="Login" value="Login" id="submit">
                </form>
          </div>
       </div>
    </body>
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
    <script src="/js/login.js"></script>
 </html>

@@ -31,7 +31,7 @@ TODO:
 17. Frontend - login
 18. Frontend - logout
 19. Frontend - dashboard
-20. Frontend - register
+20. register error handle and edge cases
 
 ****************/
 
