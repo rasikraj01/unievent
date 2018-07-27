@@ -83,7 +83,7 @@ router.get('/logout', passport.authenticate('jwt', {session : false}), (req, res
 router.delete('/current', passport.authenticate('jwt', {session : false}), (req, res) => {
    let message = {};
 
-   if(req.user.acc_type === 'organiser'){
+   if(req.user.acc_type === 'organizer'){
       Event.remove({user : req.user.id}).then((result) => {
          if(result){
             message.events = 'all events deleted';

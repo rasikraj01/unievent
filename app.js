@@ -10,7 +10,7 @@ const event_routes = require('./routes/api/event_routes');
 const profile_routes = require('./routes/api/profile_routes');
 const user_routes = require('./routes/api/user_routes');
 const unauthorized_routes = require('./routes/api/unauthorized_routes');
-const organiser_routes = require('./routes/organiser_routes');
+const organizer_routes = require('./routes/organizer_routes');
 
 
 // passport config import
@@ -27,8 +27,11 @@ TODO:
 10. populate
 11. heroku enviroment variables
 12. Search
-14. Make a website for docs -- NO
-15. Make UI for the organisers
+16. UI design
+17. Frontend - login
+18. Frontend - logout
+19. Frontend - dashboard
+20. Frontend - register
 
 ****************/
 
@@ -70,7 +73,7 @@ app.use('/api/user', user_routes);
 app.use('/api/event', event_routes);
 app.use('/api/profile', profile_routes);
 app.use('/api/unauthorized', unauthorized_routes);
-app.use('/organiser', organiser_routes);
+app.use('/organizer', organizer_routes);
 
 // home-route
 app.get('/', (req,res) => {

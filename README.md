@@ -18,7 +18,7 @@ This is the api for Univent App.
 	"name": "String",
 	"email" : "Email",
 	"password" : "Password",
-	"acc_type" : "Organiser or Patricipant"
+	"acc_type" : "organizer or Patricipant"
 }
 ```
 
@@ -30,7 +30,7 @@ JSON received if POST successful:
     "name": "String",
     "email": "Email",
     "password": "$2a$10$deRdNvd6.0KzDRBqonCc.u.bqAw7j1D55R3SSG4jgAD6rnJOObJvG", // hashed Password
-    "acc_type": "organiser",
+    "acc_type": "organizer",
     "reg_date": "2018-07-22T08:29:20.838Z", // registration Date
     "__v": 0
 }
@@ -69,7 +69,7 @@ If passwords don't match : `{"message": "incorrect password"}`
     "name": "rasik raj",
     "email": "fisrt@gmail.com",
     "password": "$2a$10$qQsx9COC70Lu0LBVKs9..eYMMEw5nnk4hTiyljninuaLfAXjvzwxK",
-    "acc_type": "organiser",
+    "acc_type": "organizer",
     "reg_date": "2018-07-22T07:26:29.046Z",
     "__v": 0
 }

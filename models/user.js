@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema({
       type: String,
       required: true
    },
-   acc_type:{// organiser or participant
+   acc_type:{// organizer or participant
       type: String,
       required: true
    },
