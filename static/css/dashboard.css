@@ -6,10 +6,6 @@
    padding: 0;
    font-family: 'roboto';
 }
-h1{
-   font-family: 'Josefin Slab', serif;
-   font-size: 40px;
-}
 .wrapper{
    display: grid;
    height: 100vh;
@@ -27,6 +23,15 @@ nav ul{
    padding: 10px;
    list-style-type: none;
 }
+h1{
+   font-family: 'Josefin Slab', serif;
+   font-size: 40px;
+   padding-top: .5rem;
+}
+.sidebar ul li:hover{
+   cursor: pointer;
+   color: red;
+}
 .sidebar{
    background: #424242;
    color: #e3e3e3;
@@ -36,10 +41,103 @@ nav ul{
    background: #fafafa;
 }
 
-.sidebar ul li:hover{
-   cursor: pointer;
-   color: red;
+.welcome{
+    position: relative;
+    text-align: center;
+    margin-top: 20vh;
+    color: #757575;
+    font-size: 30px;
+    font-weight: 100;
 }
-.acitve{
-   color: Red;
+.content h3 {
+    text-align: center;
+    font-size:40px;
+    margin-top: 5vh;
+    text-transform: uppercase;
+    color: #616161;
+    font-weight:300;
+    font-family: 'open sans';
+}
+input{
+   position: relative;
+   outline: none;
+   display: block;
+   width: 10rem;
+   height: 2rem;
+   margin: auto;
+   font-size: .8rem;
+   padding: 5px;
+}
+
+input:first-child{
+   margin-top: 2em;
+}
+
+input[type="submit"]{
+   border-radius: .3em;
+   margin-top: 10px;
+   color: white;
+   border: none;
+   background: #455a64;
+   text-decoration: none;
+   cursor: pointer;
+   outline: none;
+   margin-bottom: 10vh;
+   transition: all .4s;
+}
+
+input[type="submit"]:hover {
+    transform:scale(1.1);
+    background:#424242;
+}
+.content li{
+    list-style:none;
+    background:#E0E0E0;
+    margin:3vw;
+    margin-top:3vh;
+    color: #424242;
+
+}
+
+.content li:first-child{
+    margin-top:5vh;
+}
+
+h4:first-child{
+    text-align: center;
+    font-size:40px;
+    margin-top: 5vh;
+    text-transform: uppercase;
+    font-family: 'open sans';
+
+}
+h4{
+    font-weight:300;
+    font-family: 'open sans';
+    padding:2px 10px;
+}
+.action{
+    margin:20px ;
+    height:3em;
+    position:relative;
+}
+.action button{
+   border-radius: .3em;
+   position:absolute;
+   right:0;
+   color: white;
+   border: none;
+   background: #455a64;
+   padding: 10px;
+   text-decoration: none;
+   cursor: pointer;
+   outline: none;
+}
+.action .edit{
+    margin-right:70px;
+    background: #4CAF50;
+}
+
+.action .delete{
+    background: #D32F2F;
 }

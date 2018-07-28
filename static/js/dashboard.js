@@ -26,10 +26,12 @@ const currentUser = document.getElementById('currentUser');
 const content = document.getElementById('content');
 
 currentUser.addEventListener('click', () => {
-   content.innerHTML = '<h2>Welcome to Your DashBoard ! </h2>'
+   content.innerHTML = '<h2 class="welcome">Welcome to Your DashBoard ! </h2>'
 })
 
-let eventFormHTML = `<form id="eventForm">
+let eventFormHTML = `
+   <h3 >Create Form</h3>
+   <form id="eventForm">
    <input autofocus type="text" name="event_name" value="" placeholder="event_name" id="event_name"><br>
    <input name="host_college" placeholder="host_college" type="text" id="host_college"><br>
    <input name="venue" placeholder="venue" type="text" id="venue"><br>
@@ -43,7 +45,9 @@ let eventFormHTML = `<form id="eventForm">
 
    <input type="submit" name="register" value="Create Event" id="newEventSubmit">
 </form>`
-let profileFormHTML = `<form id="profileForm">
+let profileFormHTML = `
+                  <h3 class="profileHead">Your Profile</h3>
+                  <form id="profileForm">
                   <input autofocus type="text" name="username" value="" placeholder="username" id="username"><br>
                   <input name="mobile_number" placeholder="mobile_number" type="text" id="mobile_number" maxlength="10"><br>
                   <input name="college" placeholder="college" type="text" id="college"><br>
@@ -102,7 +106,7 @@ profile.addEventListener('click', () => {
                data : data,
                headers : {Authorization : localStorage.getItem("token")}
             }).then((result) => {
-                  UpdateProfileSubmit.style.background = 'green'
+                  UpdateProfileSubmit.style.background = '#4CAF50'
                })
                .catch(() => {console.log('err');})
          })
@@ -147,7 +151,7 @@ createEvent.addEventListener('click', () => {
       let axiosConfig =  {headers : {'Authorization' : localStorage.getItem("token")}}
 
       axios.post('/api/event', data, axiosConfig).then((result) => {
-            newEventSubmit.style.background = 'green'
+            newEventSubmit.style.background = '#4CAF50'
             console.log('sent');
          })
          .catch(() => {console.log('err');})
@@ -160,7 +164,8 @@ function editEvent(id) {
       .then((result) => {
          // add regex to date field
          let editFormHTML =
-         `<form id="EditeventForm">
+         `  <h3>Edit Event</h3>
+            <form id="EditeventForm">
             <input autofocus type="text" name="event_name" value="${result.data.event_name}" placeholder="event_name" id="event_name"><br>
             <input name="host_college" placeholder="host_college" type="text" id="host_college" value="${result.data.host_college}"><br>
             <input name="venue" placeholder="venue" type="text" id="venue" value="${result.data.venue}"><br>
@@ -205,7 +210,7 @@ function editEvent(id) {
             let axiosConfig =  {headers : {'Authorization' : localStorage.getItem("token")}}
 
             axios.put(`/api/event/${result.data._id}`, data, axiosConfig).then((result) => {
-               editEventSubmit.style.background = 'green'
+               editEventSubmit.style.background = '#4CAF50'
                console.log('Edit request Sent');
             }).catch((err) => {console.log('err' + err);})
          })
@@ -225,19 +230,19 @@ function deleteEvent(id) {
             result.data.forEach((key) => {
                data +=
                `<li>
-                  <h3>${key.event_name}</h3>
-                  <h4>${key.host_college}</h4>
-                  <h4>${key.venue}</h4>
-                  <h4>${key.society}</h4>
-                  <h4>${key.description}</h4>
-                  <h4>${key.form_link}</h4>
-                  <h4>${key.cover_link}</h4>
-                  <h4>${key.number_of_participants}</h4>
-                  <h4>${key.date}</h4>
-                  <h4>${key.prizes_worth}</h4>
+                  <h4>${key.event_name}</h4>
+                  <h4>Host College: <span>${key.host_college}</span></h4>
+                  <h4>Venue : <span>${key.venue}</span></h4>
+                  <h4>Society : <span>${key.society}</span></h4>
+                  <h4>Description : <span>${key.description}</span></h4>
+                  <h4>Form Link : <span>${key.form_link}</span></h4>
+                  <h4>Cover Link : <span>${key.cover_link}</span></h4>
+                  <h4>Number of Participants : <span>${key.number_of_participants}</span></h4>
+                  <h4>Date : <span>${key.date}</span></h4>
+                  <h4>Prizes Worth : <span>${key.prizes_worth}</span></h4>
                   <div class="action">
-                     <button id=${key._id} onclick="editEvent(this.id)" >EDIT</button>
-                     <button id=${key._id} onclick="deleteEvent(this.id)" >DELETE</button>
+                     <button id=${key._id} onclick="editEvent(this.id)" class="edit">EDIT</button>
+                     <button id=${key._id} onclick="deleteEvent(this.id)" class="delete">DELETE</button>
                   </div>
                </li>`
 
@@ -260,19 +265,19 @@ listEvents.addEventListener('click', () => {
       result.data.forEach((key) => {
          data +=
          `<li>
-            <h3>${key.event_name}</h3>
-            <h4>${key.host_college}</h4>
-            <h4>${key.venue}</h4>
-            <h4>${key.society}</h4>
-            <h4>${key.description}</h4>
-            <h4>${key.form_link}</h4>
-            <h4>${key.cover_link}</h4>
-            <h4>${key.number_of_participants}</h4>
-            <h4>${key.date}</h4>
-            <h4>${key.prizes_worth}</h4>
+            <h4>${key.event_name}</h4>
+            <h4>Host College: <span>${key.host_college}</span></h4>
+            <h4>Venue : <span>${key.venue}</span></h4>
+            <h4>Society : <span>${key.society}</span></h4>
+            <h4>Description : <span>${key.description}</span></h4>
+            <h4>Form Link : <span>${key.form_link}</span></h4>
+            <h4>Cover Link : <span>${key.cover_link}</span></h4>
+            <h4>Number of Participants : <span>${key.number_of_participants}</span></h4>
+            <h4>Date : <span>${key.date}</span></h4>
+            <h4>Prizes Worth : <span>${key.prizes_worth}</span></h4>
             <div class="action">
-               <button id=${key._id} onclick="editEvent(this.id)" >EDIT</button>
-               <button id=${key._id} onclick="deleteEvent(this.id)" >DELETE</button>
+               <button id=${key._id} onclick="editEvent(this.id)" class="edit">EDIT</button>
+               <button id=${key._id} onclick="deleteEvent(this.id)" class="delete">DELETE</button>
             </div>
          </li>`
 

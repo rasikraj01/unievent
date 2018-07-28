@@ -53,6 +53,7 @@ input[type="submit"]{
    margin-top: 10px;
    color: white;
    border: none;
+   margin-bottom: 10vh;
    background: #455a64;
    padding: 10px;
    text-decoration: none;

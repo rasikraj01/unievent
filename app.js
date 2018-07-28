@@ -21,13 +21,12 @@ TODO:
 2. Image Storage
 3. Keys protection
 5. Data Validations
-7. Event Model Restructing ?
+7. Model Restructing ?
 9. Edge Cases review
 10. populate
 11. heroku enviroment variables
 12. Search
 16. UI design
-19. Frontend - dashboard
 20. register error handle and edge cases
 21. event tags
 
