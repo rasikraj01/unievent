@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Josefin+Slab');
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
 
 *{
    margin: 0;
@@ -18,25 +18,57 @@ nav{
    color:white;
    grid-row: 1/2;
 }
-nav ul{
-   position: relative;
-   padding: 10px;
-   list-style-type: none;
-}
-h1{
+nav h1{
    font-family: 'Josefin Slab', serif;
    font-size: 40px;
-   padding-top: .5rem;
+   padding-top: 1rem;
+   padding-left:1rem;
 }
-.sidebar ul li:hover{
-   cursor: pointer;
-   color: red;
+
+nav ul{
+   position: relative;
+   list-style-type: none;
 }
 .sidebar{
    background: #424242;
-   color: #e3e3e3;
    grid-row: 2/8;
 }
+.sidebar ul li{
+    list-style: none;
+    font-size:20px;
+    text-align:center;
+    font-family: 'roboto', sans-serif;
+    padding:5px;
+    color: #e3e3e3;
+    font-weight: 300 ;
+    transition : all .4s;
+
+}
+.sidebar ul li:first-child{
+    font-style:italic;
+    font-size:25px;
+    /* boder */
+    font-weight:300;
+}
+
+.sidebar ul li:hover{
+    cursor:pointer;
+    color:#ffffff;
+    background: #312525;
+}
+.sidebar ul li:first-child:hover{
+   color: #e3e3e3;
+   cursor: default;
+   background: none;
+}
+
+
+.sidebar ul li:last-child:hover{
+    cursor:pointer;
+    color:#ffffff;
+    background: #e63935;
+}
+
 .content{
    background: #fafafa;
 }
@@ -55,7 +87,7 @@ h1{
     margin-top: 5vh;
     text-transform: uppercase;
     color: #616161;
-    font-weight:300;
+    font-size:bold;
     font-family: 'open sans';
 }
 input{
@@ -132,6 +164,7 @@ h4{
    text-decoration: none;
    cursor: pointer;
    outline: none;
+   transition: all .4s;
 }
 .action .edit{
     margin-right:70px;
@@ -140,4 +173,7 @@ h4{
 
 .action .delete{
     background: #D32F2F;
+}
+.action button:hover {
+    transform:scale(1.1);
 }
