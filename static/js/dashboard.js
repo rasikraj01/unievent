@@ -149,10 +149,68 @@ createEvent.addEventListener('click', () => {
    })
 })
 
-function oo(id) {
-   console.log(document.getElementById(`${id}`).parentNode.id);
+
+function editEvent(id) {
+   axios.get(`/api/event/${id}`)
+      .then((result) => {
+         // add regex to date field
+         let editFormHTML =
+         `<form id="EditeventForm">
+            <input autofocus type="text" name="event_name" value="${result.data.event_name}" placeholder="event_name" id="event_name"><br>
+            <input name="host_college" placeholder="host_college" type="text" id="host_college" value="${result.data.host_college}"><br>
+            <input name="venue" placeholder="venue" type="text" id="venue" value="${result.data.venue}"><br>
+            <input name="society" placeholder="society" type="text" id="society" value="${result.data.society}"><br>
+            <input name="description" placeholder="description" type="text" id="description" value="${result.data.description}"><br>
+            <input name="form_link" placeholder="form_link" type="text" id="form_link" value="${result.data.form_link}"><br>
+            <input name="cover_link" placeholder="cover_link" type="text" id="cover_link" value="${result.data.cover_link}"><br>
+            <input name="number_of_participants" placeholder="number_of_participants" type="text" id="number_of_participants" value="${result.data.number_of_participants}"><br>
+            <input name="date" placeholder="date" type="datetime" id="date" value="${result.data.date}"><br>
+            <input name="prizes_worth" placeholder="prizes_worth" type="text" id="prizes_worth" value="${result.data.prizes_worth}"> <br>
+            <input type="submit" name="edit event" value="Edit Event" id="editEventSubmit">
+         </form>`
+
+         content.innerHTML = editFormHTML;
+
+         const event_name = document.getElementById('event_name');
+         const host_college = document.getElementById('host_college');
+         const venue = document.getElementById('venue');
+         const society = document.getElementById('society');
+         const  description = document.getElementById('description');
+         const form_link = document.getElementById('form_link');
+         const cover_link = document.getElementById('cover_link');
+         const number_of_participants = document.getElementById('number_of_participants');
+         const date = document.getElementById('date');
+         const prizes_worth = document.getElementById('prizes_worth');
+         const editEventSubmit = document.getElementById('editEventSubmit');
+
+         editEventSubmit.addEventListener('click', (e) => {
+            e.preventDefault();
+            let data = {
+               event_name : event_name.value,
+               host_college : host_college.value,
+               venue : venue.value,
+               society : society.value,
+               description : description.value,
+               form_link : form_link.value,
+               cover_link: cover_link.value,
+               number_of_participants: number_of_participants.value,
+               date: date.value,
+               prizes_worth: prizes_worth.value
+            }
+            let axiosConfig =  {headers : {'Authorization' : localStorage.getItem("token")}}
+
+            axios.put(`/api/event/${result.data._id}`, data, axiosConfig).then((result) => {
+               editEventSubmit.style.background = 'green'
+               console.log('Edit request Sent');
+            }).catch((err) => {console.log('err' + err);})
+         })
+      })
+      .catch((err) => {console.log('err' + err);})
 }
 
+function deleteEvent(id) {
+   console.log(`Delete ${id}`);
+}
 
 listEvents.addEventListener('click', () => {
    let user = localStorage.getItem('user');
@@ -162,8 +220,21 @@ listEvents.addEventListener('click', () => {
       console.log(result.data);
       result.data.forEach((key) => {
          data +=
-         `<li id=${key._id} onclick="oo(this.id)">
-            ${key.event_name}
+         `<li>
+            <h3>${key.event_name}</h3>
+            <h4>${key.host_college}</h4>
+            <h4>${key.venue}</h4>
+            <h4>${key.society}</h4>
+            <h4>${key.description}</h4>
+            <h4>${key.form_link}</h4>
+            <h4>${key.cover_link}</h4>
+            <h4>${key.number_of_participants}</h4>
+            <h4>${key.date}</h4>
+            <h4>${key.prizes_worth}</h4>
+            <div class="action">
+               <button id=${key._id} onclick="editEvent(this.id)" >EDIT</button>
+               <button id=${key._id} onclick="deleteEvent(this.id)" >DELETE</button>
+            </div>
          </li>`
 
          })
