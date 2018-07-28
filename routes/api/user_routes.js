@@ -73,11 +73,10 @@ router.get('/current', passport.authenticate('jwt', {session : false}),(req, res
    res.json(req.user);
 });
 
-/* to logout a user
-router.get('/logout', passport.authenticate('jwt', {session : false}), (req, res) => {
-   res.json({message : 'destroy the token from header in frontend :P'})
-})
-*/
+// router.get('/logout', passport.authenticate('jwt', {session : false}), (req, res) => {
+//    res.json({message : 'destroy the token from header in frontend :P'})
+// })
+
 
 //to delete a user and all its Data
 router.delete('/current', passport.authenticate('jwt', {session : false}), (req, res) => {

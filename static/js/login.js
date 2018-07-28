@@ -19,13 +19,9 @@ submit.addEventListener('click' , (e) => {
             if (res.data.success) {
                localStorage.setItem("token", res.data.token);
                console.log('logged in');
-               //document.window.location.href = '/organizer/dashboard';
-               const headers = {Authorization : localStorage.getItem("token")}
-               axios({
-                  method:'get',
-                  url:'/organizer/dashboard',
-                  responseType:'stream'
-               })
+               //const headers = {Authorization : localStorage.getItem("token")}
+               window.location.href = '/organizer/dashboard';
+
             }
             else{
                console.log('err');

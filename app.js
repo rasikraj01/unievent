@@ -12,7 +12,6 @@ const user_routes = require('./routes/api/user_routes');
 const unauthorized_routes = require('./routes/api/unauthorized_routes');
 const organizer_routes = require('./routes/organizer_routes');
 
-
 // passport config import
 require('./config/passport-setup')(passport)
 
@@ -28,10 +27,9 @@ TODO:
 11. heroku enviroment variables
 12. Search
 16. UI design
-17. Frontend - login
-18. Frontend - logout
 19. Frontend - dashboard
 20. register error handle and edge cases
+21. event tags
 
 ****************/
 
@@ -58,7 +56,6 @@ passport.deserializeUser(function(user, done) {
 // handlebars cconfig
 app.set('view engine', 'hbs');
 app.set('views',path.join(__dirname, 'views'));
-
 //static files
 app.use(express.static(path.join(__dirname, 'static')));
 

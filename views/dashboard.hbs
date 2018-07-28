@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
-      <title> IOSD | Dashboard</title>
+      <title id="title">Dashboard</title>
       <link rel="stylesheet" type="text/css" href="/css/dashboard.css">
    </head>
    <body>
@@ -14,15 +14,25 @@
          </nav>
          <div class="sidebar">
             <ul>
-               <li>Create Event</li>
-               <li>Your Events</li>
-               <li>Settings</li>
-               <li>Logout</li>
+               <li id="currentUser"> username</li>
+               <li id="createEvent">Create Event</li>
+               <li id="listEvents">Your Events</li>
+               <li id="profile">Your Profile</li>
+               <li id="logout">Logout</li>
             </ul>
          </div>
-         <div class="content">
-            <h2>your Events</h2>
+         <div class="content" id="content">
+               <form id="profileForm">
+                  <input autofocus type="text" name="username" value="" placeholder="username" id="username"><br>
+                  <input name="mobile_number" placeholder="mobile_number" type="text" id="mobile_number" maxlength="10"><br>
+                  <input name="college" placeholder="college" type="text" id="college"><br>
+                  <input name="field_of_study" placeholder="field_of_study" type="text" id="field_of_study"><br>
+                  <input name="year" placeholder="year" type="text" id="year" maxlength="1"><br>
+                  <input type="submit" name="register" value="Update Profile" id="UpdateProfileSubmit">
+               </form>
          </div>
       </div>
    </body>
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+   <script src="/js/dashboard.js"></script>
 </html>

@@ -16,9 +16,9 @@ router.get('/', passport.authenticate('jwt', {session:false}), (req, res) => {
             res.json(result)
          }
          else{
-            res.json({message : 'user not found'})
+            res.json({message : 'user not found', status: 404})
          }
-      }).catch((err) => {console.log(err)})
+      }).catch((err) => {console.log(err); res.json({message : 'user not found'})})
    }
    else{
       res.json({message : 'not logged in'})
@@ -50,7 +50,9 @@ router.post('/', passport.authenticate('jwt', {session:false}), (req, res) => {
    }
    Profile.findOne({user : req.user.id}).then((result) => {
       if(result){
-         res.json({message: 'User Profile already Exists'})
+         Profile.findOneAndUpdate({user : req.user.id}, {$set : profileF}, {new: true }).then((updated_profile) => {
+            res.json(updated_profile)
+      }).catch((err) => {console.log(err)})
       }
       else{
          //check if mobile mobile_number is valid using 2FA ?
