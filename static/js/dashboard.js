@@ -10,6 +10,7 @@ axios({
    if(value.status == 200){
       document.getElementById('title').innerHTML = `${value.data.name} | Dashboard`;
       document.getElementById('currentUser').innerHTML = `${value.data.name}`;
+      localStorage.setItem('user', value.data._id)
    }else{
       window.location.href = '/organizer/login';
    }}).catch((value) => {
@@ -53,6 +54,7 @@ let view ;
 
 logoutButton.addEventListener('click', () => {
    localStorage.removeItem("token");
+   localStorage.removeItem("user");
    window.location.href = '/organizer/login';
 })
 
@@ -145,4 +147,29 @@ createEvent.addEventListener('click', () => {
          })
          .catch(() => {console.log('err');})
    })
+})
+
+function oo(id) {
+   console.log(document.getElementById(`${id}`).parentNode.id);
+}
+
+
+listEvents.addEventListener('click', () => {
+   let user = localStorage.getItem('user');
+   let url = `/api/event/?user=${user}`;
+   axios.get(url).then((result) => {
+      let data = "";
+      console.log(result.data);
+      result.data.forEach((key) => {
+         data +=
+         `<li id=${key._id} onclick="oo(this.id)">
+            ${key.event_name}
+         </li>`
+
+         })
+      content.innerHTML = data;
+
+
+
+   }).catch((err) => {console.log('err ' + err);})
 })

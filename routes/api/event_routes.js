@@ -14,6 +14,8 @@ const router = express.Router();
 
 // get all events or filtered events
 router.get('/', (req, res) => {
+   if(req.query.user)
+      req.query.user =  mongoose.Types.ObjectId(req.query.user)
    Event.find(req.query).then((result) => {
       if(result.length === 0){
          res.json({message : 'query does not match any Event'})
@@ -28,7 +30,7 @@ router.get('/', (req, res) => {
 //get a unique event with id
 router.get('/:id', (req, res) => {
    Event.findById({_id : req.params.id}).then((result) => {
-      if(result.length === 0){
+      if(result === null){
          res.status(404).json({message : 'Event not Found'})
       }
       else {
