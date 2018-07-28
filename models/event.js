@@ -47,7 +47,7 @@ const eventSchema = mongoose.Schema({
       type: String,
       required: true
    }
-   // contact org
+   // contact org + contact mobile muber field
 });
 
 const Event = mongoose.model('event', eventSchema);

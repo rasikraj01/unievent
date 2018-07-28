@@ -35,3 +35,11 @@ nav ul{
 .content{
    background: #fafafa;
 }
+
+.sidebar ul li:hover{
+   cursor: pointer;
+   color: red;
+}
+.acitve{
+   color: Red;
+}

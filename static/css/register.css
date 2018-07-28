@@ -60,9 +60,3 @@ input[type="submit"]{
    cursor: pointer;
    outline: none;
 }
-.sidebar ul li:hover{
-   cursor: pointer;
-}
-.acitve{
-   color: Red;
-}
