@@ -9,5 +9,20 @@ h1{
    font-size: 5rem;
    width: 100vw;
    text-align: center;
-   margin-top: calc(50vh - 2.5rem);
+   margin-bottom: 1rem;
+   margin-top: calc(50vh - 5.5rem);
+}
+h2 {
+    margin-top: 0;
+    font-size: x-large;
+    text-align: center;
+    position: relative;
+}
+h2 span{
+    border-bottom: 2px dashed #fff;
+    transition : all .4s;
+}
+h2 span:hover{
+   cursor: pointer;
+   border-bottom: 2px solid #fff;
 }

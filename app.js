@@ -26,7 +26,6 @@ TODO:
 10. populate
 11. heroku enviroment variables
 12. Search
-16. UI design
 20. register error handle and edge cases
 21. event tags
 
