@@ -22,7 +22,12 @@ const logoutButton = document.getElementById('logout');
 const profile = document.getElementById('profile');
 const createEvent = document.getElementById('createEvent');
 const listEvents = document.getElementById('listEvents');
+const currentUser = document.getElementById('currentUser');
 const content = document.getElementById('content');
+
+currentUser.addEventListener('click', () => {
+   content.innerHTML = '<h2>Welcome to Your DashBoard ! </h2>'
+})
 
 let eventFormHTML = `<form id="eventForm">
    <input autofocus type="text" name="event_name" value="" placeholder="event_name" id="event_name"><br>
@@ -209,7 +214,41 @@ function editEvent(id) {
 }
 
 function deleteEvent(id) {
-   console.log(`Delete ${id}`);
+   let axiosConfig =  {headers : {'Authorization' : localStorage.getItem("token")}}
+   axios.delete(`/api/event/${id}`, axiosConfig)
+      .then((result) => {
+         let user = localStorage.getItem('user');
+         let url = `/api/event/?user=${user}`;
+         axios.get(url).then((result) => {
+            let data = "";
+            console.log(result.data);
+            result.data.forEach((key) => {
+               data +=
+               `<li>
+                  <h3>${key.event_name}</h3>
+                  <h4>${key.host_college}</h4>
+                  <h4>${key.venue}</h4>
+                  <h4>${key.society}</h4>
+                  <h4>${key.description}</h4>
+                  <h4>${key.form_link}</h4>
+                  <h4>${key.cover_link}</h4>
+                  <h4>${key.number_of_participants}</h4>
+                  <h4>${key.date}</h4>
+                  <h4>${key.prizes_worth}</h4>
+                  <div class="action">
+                     <button id=${key._id} onclick="editEvent(this.id)" >EDIT</button>
+                     <button id=${key._id} onclick="deleteEvent(this.id)" >DELETE</button>
+                  </div>
+               </li>`
+
+               })
+            content.innerHTML = data;
+
+
+
+         }).catch((err) => {console.log('err ' + err);})
+      })
+      .catch((err) => {console.log('err ' + err );})
 }
 
 listEvents.addEventListener('click', () => {
