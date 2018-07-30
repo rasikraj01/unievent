@@ -56,7 +56,7 @@ router.post('/login', (req, res) => {
                   acc_type : result.acc_type
                } //jwt payload
                jwt.sign(payload, 'abcssss', { expiresIn: 3600}, (err, token) => {
-                  res.json({success: true, token: 'Bearer ' + token });
+                  res.cookie('jwt', `${token}`).json({success: true, token: 'Bearer ' + token });
                })
          }
          else{
@@ -73,10 +73,9 @@ router.get('/current', passport.authenticate('jwt', {session : false}),(req, res
    res.json(req.user);
 });
 
-// router.get('/logout', passport.authenticate('jwt', {session : false}), (req, res) => {
-//    res.json({message : 'destroy the token from header in frontend :P'})
-// })
-
+router.get('/logout', passport.authenticate('jwt', {session : false}), (req, res) => {
+   res.clearCookie('jwt').json({logout : true});
+})
 
 //to delete a user and all its Data
 router.delete('/current', passport.authenticate('jwt', {session : false}), (req, res) => {

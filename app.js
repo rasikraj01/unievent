@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const hbs = require('hbs');
 const path = require('path');
-
+const cookieParser = require('cookie-parser');
 
 const event_routes = require('./routes/api/event_routes');
 const profile_routes = require('./routes/api/profile_routes');
@@ -28,6 +28,7 @@ TODO:
 12. Search
 20. register error handle and edge cases
 21. event tags
+22. token expiration time :  https://stackoverflow.com/questions/27978868/destroy-cookie-nodejs
 
 ****************/
 
@@ -62,6 +63,7 @@ app.use(express.static(path.join(__dirname, 'static')));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.use(cookieParser());
 
 // routes
 app.use('/api/user', user_routes);

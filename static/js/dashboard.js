@@ -1,21 +1,13 @@
-if (!localStorage.getItem("token"))
-   window.location.href = '/organizer/login';
-
-
 axios({
    method:'get',
    url:'/api/user/current',
-   headers : {Authorization : localStorage.getItem("token")}
 }).then((value) => {
    if(value.status == 200){
       document.getElementById('title').innerHTML = `${value.data.name} | Dashboard`;
       document.getElementById('currentUser').innerHTML = `${value.data.name}`;
       localStorage.setItem('user', value.data._id)
-   }else{
-      window.location.href = '/organizer/login';
-   }}).catch((value) => {
-      window.location.href = '/organizer/login';
-})
+   }
+   })
 
 const title = document.getElementById('title');
 const logoutButton = document.getElementById('logout');
@@ -62,9 +54,15 @@ let profileFormHTML = `
 let view ;
 
 logoutButton.addEventListener('click', () => {
-   localStorage.removeItem("token");
+
    localStorage.removeItem("user");
-   window.location.href = '/organizer/login';
+   axios({
+      method:'get',
+      url:'/api/user/logout'
+   }).then((res) => {
+      if (res.data.logout)
+            window.location.href = '/organizer/login';
+   })
 })
 
 profile.addEventListener('click', () => {
@@ -78,8 +76,7 @@ profile.addEventListener('click', () => {
    const UpdateProfileSubmit = document.getElementById('UpdateProfileSubmit');
    axios({
       method:'get',
-      url:'/api/profile/',
-      headers : {Authorization : localStorage.getItem("token")}
+      url:'/api/profile/'
    }).then((result) => {
       if(result.data.status === 404){
       }
@@ -104,7 +101,6 @@ profile.addEventListener('click', () => {
                method:'post',
                url:'/api/profile/',
                data : data,
-               headers : {Authorization : localStorage.getItem("token")}
             }).then((result) => {
                   UpdateProfileSubmit.style.background = '#4CAF50'
                })
@@ -148,9 +144,8 @@ createEvent.addEventListener('click', () => {
          date: date.value,
          prizes_worth: prizes_worth.value
       }
-      let axiosConfig =  {headers : {'Authorization' : localStorage.getItem("token")}}
 
-      axios.post('/api/event', data, axiosConfig).then((result) => {
+      axios.post('/api/event', data).then((result) => {
             newEventSubmit.style.background = '#4CAF50'
             console.log('sent');
          })
@@ -207,9 +202,8 @@ function editEvent(id) {
                date: date.value,
                prizes_worth: prizes_worth.value
             }
-            let axiosConfig =  {headers : {'Authorization' : localStorage.getItem("token")}}
 
-            axios.put(`/api/event/${result.data._id}`, data, axiosConfig).then((result) => {
+            axios.put(`/api/event/${result.data._id}`, data).then((result) => {
                editEventSubmit.style.background = '#4CAF50'
                console.log('Edit request Sent');
             }).catch((err) => {console.log('err' + err);})
@@ -219,8 +213,7 @@ function editEvent(id) {
 }
 
 function deleteEvent(id) {
-   let axiosConfig =  {headers : {'Authorization' : localStorage.getItem("token")}}
-   axios.delete(`/api/event/${id}`, axiosConfig)
+   axios.delete(`/api/event/${id}`)
       .then((result) => {
          let user = localStorage.getItem('user');
          let url = `/api/event/?user=${user}`;

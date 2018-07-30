@@ -1,7 +1,5 @@
 const submit = document.getElementById("submit");
 
-if (!localStorage.getItem("token"))
-    localStorage.setItem("token", "a");
 
 submit.addEventListener('click' , (e) => {
    const email = document.getElementById("email").value;
@@ -17,15 +15,10 @@ submit.addEventListener('click' , (e) => {
             document.getElementById('login_form').reset();
             console.log(res.data);
             if (res.data.success) {
-               localStorage.setItem("token", res.data.token);
-               console.log('logged in');
-               //const headers = {Authorization : localStorage.getItem("token")}
                window.location.href = '/organizer/dashboard';
-
             }
-            else{
+            else
                console.log('err');
-            }
          })
       .catch((err) => {
          console.log(err);
