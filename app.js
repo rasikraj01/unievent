@@ -19,14 +19,11 @@ require('./config/passport-setup')(passport)
 
 TODO:
 2. Image Storage
-3. Keys protection
+3. Keys protection -- heroku enviroment variables
 5. Data Validations
-7. Model Restructing ?
+7. Model Restructing  // add fullpath
 9. Edge Cases review
-10. populate
-11. heroku enviroment variables
-12. Search
-20. register error handle and edge cases
+20. register error handle and edge cases -- data validations
 21. event tags
 22. token expiration time :  https://stackoverflow.com/questions/27978868/destroy-cookie-nodejs
 

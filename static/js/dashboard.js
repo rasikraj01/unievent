@@ -29,8 +29,8 @@ let eventFormHTML = `
    <input name="venue" placeholder="venue" type="text" id="venue"><br>
    <input name="society" placeholder="society" type="text" id="society"><br>
    <input name="description" placeholder="description" type="text" id="description"><br>
-   <input type="file" class="file-select" accept="image/jpeg, image/jpg" id="form_link"/><br>
-   <input name="cover_link" placeholder="cover_link" type="text" id="cover_link"><br>
+   Upload Cover Photo : <input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
+   <input name="form_link" placeholder="form_link" type="text" id="form_link"><br>
    <input name="number_of_participants" placeholder="number_of_participants" type="text" id="number_of_participants"><br>
    <input name="date" placeholder="date" type="date" id="date"><br>
    <input name="prizes_worth" placeholder="prizes_worth" type="text" id="prizes_worth"><br>
@@ -130,37 +130,10 @@ var config = {
             let downloadURL;
 
 
-            var handleFileUploadSubmit = new Promise(function(resolve, reject){
-               if (document.querySelector('.file-select').files[0].size <= 500000) {
-                  let filename =selectedFile.name + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-                  const uploadTask = storageRef.child(`images/${filename}`).put(selectedFile, uploadsMetadata); //create a child directory called images, and place the file inside this directory
-                  uploadTask.on('state_changed', (snapshot) => {
-
-                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                     console.log('Upload is ' + progress + '% done');
-                  document.getElementById("progressBar").value = progress - 10;
-
-                 // Observe state change events such as progress, pause, and resume
-                  }, (error) => {
-                  // Handle unsuccessful uploads
-                  console.log(error);
-                 }, () => {
-                    // Do something once upload is complete
-                    console.log('success');
-                    storageRef.child(`images/${filename}`).getDownloadURL().then((result) => {
-                       downloadURL = result;
-                    })
-                 });
-                 resolve( downloadURL);
-              }else{
-                 console.log('file is too big');
-                 reject(null);
-              }
-
-            });
-
 createEvent.addEventListener('click', () => {
    content.innerHTML = eventFormHTML;
+
+
 
    const event_name = document.getElementById('event_name');
    const host_college = document.getElementById('host_college');
@@ -168,14 +141,13 @@ createEvent.addEventListener('click', () => {
    const society = document.getElementById('society');
    const  description = document.getElementById('description');
    const form_link = document.getElementById('form_link');
-   const cover_link = document.getElementById('cover_link');
+   //const cover_link = document.getElementById('cover_link');
    const number_of_participants = document.getElementById('number_of_participants');
    const date = document.getElementById('date');
    const prizes_worth = document.getElementById('prizes_worth');
    const newEventSubmit = document.getElementById('newEventSubmit');
 
-
-   document.querySelector('.file-select').addEventListener('change', handleFileUploadChange);
+   document.getElementById('file-select').addEventListener('change', handleFileUploadChange);
 
    let selectedFile;
 
@@ -184,22 +156,53 @@ createEvent.addEventListener('click', () => {
    }
    newEventSubmit.addEventListener('click', (e) => {
 
+      const filesize = document.getElementById('file-select').files[0].size;
+      var handleFileUploadSubmit = new Promise(function(resolve, reject){
+         if (filesize <= 500000) {
+            let filename =selectedFile.name + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            const uploadTask = storageRef.child(`images/${filename}`).put(selectedFile, uploadsMetadata); //create a child directory called images, and place the file inside this directory
+            uploadTask.on('state_changed', (snapshot) => {
+
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+               console.log('Upload is ' + progress + '% done');
+            document.getElementById("progressBar").value = progress - 10;
+
+           // Observe state change events such as progress, pause, and resume
+            }, (error) => {
+            // Handle unsuccessful uploads
+            console.log(error);
+           }, () => {
+              // Do something once upload is complete
+              console.log('success');
+              storageRef.child(`images/${filename}`).getDownloadURL().then((result) => {
+                  let fullpath = uploadTask.snapshot.metadata.fullPath;
+                 downloadURL = result;
+
+                 resolve( downloadURL);
+              })
+           });
+        }else{
+           console.log('file is too big');
+           reject('null');
+        }
+
+      });
+
       e.preventDefault();
       handleFileUploadSubmit.then((downloadURL) => {
-
+               console.log(downloadURL);
                let data = {
                   event_name : event_name.value,
                   host_college : host_college.value,
                   venue : venue.value,
                   society : society.value,
                   description : description.value,
-                  form_link : downloadURL,
-                  cover_link: cover_link.value,
+                  form_link : form_link.value,
+                  cover_link: downloadURL,
                   number_of_participants: number_of_participants.value,
                   date: date.value,
                   prizes_worth: prizes_worth.value
                }
-
                axios.post('/api/event', data).then((result) => {
                      document.getElementById("progressBar").value = 100;
                      newEventSubmit.style.background = '#4CAF50'
@@ -227,11 +230,13 @@ function editEvent(id) {
             <input name="venue" placeholder="venue" type="text" id="venue" value="${result.data.venue}"><br>
             <input name="society" placeholder="society" type="text" id="society" value="${result.data.society}"><br>
             <input name="description" placeholder="description" type="text" id="description" value="${result.data.description}"><br>
+            <img src="${result.data.cover_link}" class="cover-pic" height="100">
+            <input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
             <input name="form_link" placeholder="form_link" type="text" id="form_link" value="${result.data.form_link}"><br>
-            <input name="cover_link" placeholder="cover_link" type="text" id="cover_link" value="${result.data.cover_link}"><br>
             <input name="number_of_participants" placeholder="number_of_participants" type="text" id="number_of_participants" value="${result.data.number_of_participants}"><br>
             <input name="date" placeholder="date" type="datetime" id="date" value="${result.data.date}"><br>
             <input name="prizes_worth" placeholder="prizes_worth" type="text" id="prizes_worth" value="${result.data.prizes_worth}"> <br>
+                  <progress value="0" max="100" id="progressBar"></progress><br>
             <input type="submit" name="edit event" value="Edit Event" id="editEventSubmit">
          </form>`
 
@@ -243,37 +248,124 @@ function editEvent(id) {
          const society = document.getElementById('society');
          const  description = document.getElementById('description');
          const form_link = document.getElementById('form_link');
-         const cover_link = document.getElementById('cover_link');
+         //const cover_link = document.getElementById('cover_link');
          const number_of_participants = document.getElementById('number_of_participants');
          const date = document.getElementById('date');
          const prizes_worth = document.getElementById('prizes_worth');
          const editEventSubmit = document.getElementById('editEventSubmit');
+         downloadURL = result.data.cover_link; // .cover.downloadURL
+         //const Rcfullpath = 'images/'+ result.cover.fullpath;
+         let selectedFile;
+
+
+      var readURL = function(input) {
+     if (input.files && input.files[0]) {
+         var reader = new FileReader();
+
+         reader.onload = function (e) {
+             $('.cover-pic').attr('src', e.target.result);
+         }
+
+         reader.readAsDataURL(input.files[0]);
+     }
+   }
+
+
+   let change= false;
+   $("#file-select").on('change', function(e){
+     readURL(this);
+
+       selectedFile = e.target.files[0];
+       console.log(selectedFile.size);
+   change=true;
+   });
 
          editEventSubmit.addEventListener('click', (e) => {
             e.preventDefault();
-            let data = {
-               event_name : event_name.value,
-               host_college : host_college.value,
-               venue : venue.value,
-               society : society.value,
-               description : description.value,
-               form_link : form_link.value,
-               cover_link: cover_link.value,
-               number_of_participants: number_of_participants.value,
-               date: date.value,
-               prizes_worth: prizes_worth.value
+            if(change == true){
+               let filesize = selectedFile.size;
+               var handleFileUploadSubmit = new Promise(function(resolve, reject){
+                  if (filesize <= 500000) {
+                     let filename =selectedFile.name + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                     const uploadTask = storageRef.child(`images/${filename}`).put(selectedFile, uploadsMetadata); //create a child directory called images, and place the file inside this directory
+                     uploadTask.on('state_changed', (snapshot) => {
+
+                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('Upload is ' + progress + '% done');
+                     document.getElementById("progressBar").value = progress - 10;
+
+                     // var desertRef = storageRef.child('fullpath');
+                     // // Delete the file
+                     // desertRef.delete().then(function() {
+                     // // File deleted successfully
+                     // console.log('del');
+                     // }).catch(function(error) {
+                     // console.log('olo');
+                     // })
+                     console.log('old file deleted');
+
+                    // Observe state change events such as progress, pause, and resume
+                     }, (error) => {
+                     // Handle unsuccessful uploads
+                     console.log(error);
+                    }, () => {
+                       // Do something once upload is complete
+                       console.log('success');
+                       storageRef.child(`images/${filename}`).getDownloadURL().then((result) => {
+                           let fullpath = uploadTask.snapshot.metadata.fullPath;
+                          downloadURL = result;
+
+                          resolve( downloadURL);
+                       })
+                    });
+                 }else{
+                    console.log('file is too big');
+                    reject(downloadURL);
+                 }
+
+               });
+            }
+            else{
+               var handleFileUploadSubmit = new Promise(function (resolve, reject) {
+                  resolve(downloadURL)
+               })
             }
 
-            axios.put(`/api/event/${result.data._id}`, data).then((result) => {
-               editEventSubmit.style.background = '#4CAF50'
-               console.log('Edit request Sent');
-            }).catch((err) => {console.log('err' + err);})
-         })
-      })
-      .catch((err) => {console.log('err' + err);})
-}
+            handleFileUploadSubmit.then((downloadURL) => {
 
+               let data = {
+                  event_name : event_name.value,
+                  host_college : host_college.value,
+                  venue : venue.value,
+                  society : society.value,
+                  description : description.value,
+                  form_link : form_link.value,
+                  cover_link: downloadURL,
+                  number_of_participants: number_of_participants.value,
+                  date: date.value,
+                  prizes_worth: prizes_worth.value
+               }
+
+               axios.put(`/api/event/${result.data._id}`, data).then((result) => {
+                  editEventSubmit.style.background = '#4CAF50'
+                  console.log('Edit request Sent');
+               }).catch((err) => {console.log('err' + err);})
+            })
+         })
+})
+}
 function deleteEvent(id) {
+   axios.get(`/api/event/${id}`).then((result) => {
+      //let fullpath = 'images/' + result.cover.filename;
+      var desertRef = storageRef.child('fullpath');
+      // Delete the file
+      desertRef.delete().then(function() {
+      // File deleted successfully
+      console.log('del');
+      }).catch(function(error) {
+      console.log('olo');
+      })
+   })
    axios.delete(`/api/event/${id}`)
       .then((result) => {
          let user = localStorage.getItem('user');
@@ -290,7 +382,7 @@ function deleteEvent(id) {
                   <h4>Society : <span>${key.society}</span></h4>
                   <h4>Description : <span>${key.description}</span></h4>
                   <h4>Form Link : <span>${key.form_link}</span></h4>
-                  <h4>Cover Link : <span>${key.cover_link}</span></h4>
+                  <h4>Cover Link : <span><img src="${key.cover_link}" height="100"alt="" /></span></h4>
                   <h4>Number of Participants : <span>${key.number_of_participants}</span></h4>
                   <h4>Date : <span>${key.date}</span></h4>
                   <h4>Prizes Worth : <span>${key.prizes_worth}</span></h4>
@@ -325,7 +417,7 @@ listEvents.addEventListener('click', () => {
             <h4>Society : <span>${key.society}</span></h4>
             <h4>Description : <span>${key.description}</span></h4>
             <h4>Form Link : <span>${key.form_link}</span></h4>
-            <h4>Cover Link : <span>${key.cover_link}</span></h4>
+            <h4>Cover Link : <span><img src="${key.cover_link}" height="100"alt="" /></span></h4>
             <h4>Number of Participants : <span>${key.number_of_participants}</span></h4>
             <h4>Date : <span>${key.date}</span></h4>
             <h4>Prizes Worth : <span>${key.prizes_worth}</span></h4>
@@ -337,8 +429,5 @@ listEvents.addEventListener('click', () => {
 
          })
       content.innerHTML = data;
-
-
-
    }).catch((err) => {console.log('err ' + err);})
 })
