@@ -7,7 +7,7 @@ axios({
       document.getElementById('currentUser').innerHTML = `${value.data.name}`;
       localStorage.setItem('user', value.data._id)
    }
-   })
+})
 
 const title = document.getElementById('title');
 const logoutButton = document.getElementById('logout');
@@ -29,13 +29,14 @@ let eventFormHTML = `
    <input name="venue" placeholder="venue" type="text" id="venue"><br>
    <input name="society" placeholder="society" type="text" id="society"><br>
    <input name="description" placeholder="description" type="text" id="description"><br>
-   <input name="form_link" placeholder="form_link" type="text" id="form_link"><br>
+   <input type="file" class="file-select" accept="image/jpeg, image/jpg" id="form_link"/><br>
    <input name="cover_link" placeholder="cover_link" type="text" id="cover_link"><br>
    <input name="number_of_participants" placeholder="number_of_participants" type="text" id="number_of_participants"><br>
    <input name="date" placeholder="date" type="date" id="date"><br>
    <input name="prizes_worth" placeholder="prizes_worth" type="text" id="prizes_worth"><br>
 
-   <input type="submit" name="register" value="Create Event" id="newEventSubmit">
+   <progress value="0" max="100" id="progressBar"></progress>
+   <input type="submit" name="register" value="Create Event" id="newEventSubmit" class="file-submit">
 </form>`
 let profileFormHTML = `
                   <h3 class="profileHead">Your Profile</h3>
@@ -111,7 +112,52 @@ profile.addEventListener('click', () => {
       console.log(result);
    })
 })
+var config = {
+  apiKey: "AIzaSyB3vQA5pao10VNudEeaReemUT62uaBxgtw",
+  authDomain: "univent-81163.firebaseapp.com",
+  databaseURL: "https://univent-81163.firebaseio.com",
+  projectId: "univent-81163",
+  storageBucket: "univent-81163.appspot.com"
+};
 
+   firebase.initializeApp(config);
+
+   var storageRef = firebase.storage().ref('coverPhoto');
+          var uploadsRef = firebase.database().ref('coverPhoto');
+          var uploadsMetadata = {
+            cacheControl: "max-age=" + (60 * 60 * 24 * 365), // One year of seconds
+          };
+            let downloadURL;
+
+
+            var handleFileUploadSubmit = new Promise(function(resolve, reject){
+               if (document.querySelector('.file-select').files[0].size <= 500000) {
+                  let filename =selectedFile.name + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                  const uploadTask = storageRef.child(`images/${filename}`).put(selectedFile, uploadsMetadata); //create a child directory called images, and place the file inside this directory
+                  uploadTask.on('state_changed', (snapshot) => {
+
+                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                     console.log('Upload is ' + progress + '% done');
+                  document.getElementById("progressBar").value = progress - 10;
+
+                 // Observe state change events such as progress, pause, and resume
+                  }, (error) => {
+                  // Handle unsuccessful uploads
+                  console.log(error);
+                 }, () => {
+                    // Do something once upload is complete
+                    console.log('success');
+                    storageRef.child(`images/${filename}`).getDownloadURL().then((result) => {
+                       downloadURL = result;
+                    })
+                 });
+                 resolve( downloadURL);
+              }else{
+                 console.log('file is too big');
+                 reject(null);
+              }
+
+            });
 
 createEvent.addEventListener('click', () => {
    content.innerHTML = eventFormHTML;
@@ -128,28 +174,43 @@ createEvent.addEventListener('click', () => {
    const prizes_worth = document.getElementById('prizes_worth');
    const newEventSubmit = document.getElementById('newEventSubmit');
 
+
+   document.querySelector('.file-select').addEventListener('change', handleFileUploadChange);
+
+   let selectedFile;
+
+   function handleFileUploadChange(e) {
+     selectedFile = e.target.files[0];
+   }
    newEventSubmit.addEventListener('click', (e) => {
 
       e.preventDefault();
+      handleFileUploadSubmit.then((downloadURL) => {
 
-      let data = {
-         event_name : event_name.value,
-         host_college : host_college.value,
-         venue : venue.value,
-         society : society.value,
-         description : description.value,
-         form_link : form_link.value,
-         cover_link: cover_link.value,
-         number_of_participants: number_of_participants.value,
-         date: date.value,
-         prizes_worth: prizes_worth.value
-      }
+               let data = {
+                  event_name : event_name.value,
+                  host_college : host_college.value,
+                  venue : venue.value,
+                  society : society.value,
+                  description : description.value,
+                  form_link : downloadURL,
+                  cover_link: cover_link.value,
+                  number_of_participants: number_of_participants.value,
+                  date: date.value,
+                  prizes_worth: prizes_worth.value
+               }
 
-      axios.post('/api/event', data).then((result) => {
-            newEventSubmit.style.background = '#4CAF50'
-            console.log('sent');
-         })
-         .catch(() => {console.log('err');})
+               axios.post('/api/event', data).then((result) => {
+                     document.getElementById("progressBar").value = 100;
+                     newEventSubmit.style.background = '#4CAF50'
+                     console.log('sent');
+                  })
+                  .catch(() => {console.log('err');})
+      }).catch((err) => {
+               document.getElementById("progressBar").value = 0;
+               newEventSubmit.style.background = 'red';
+               console.log('sent');
+      })
    })
 })
 

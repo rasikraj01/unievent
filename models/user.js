@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// rename to organizer
 
 const userSchema = mongoose.Schema({
    name :{
