@@ -377,8 +377,8 @@ function editEvent(id) {
 }
 function deleteEvent(id) {
    axios.get(`/api/event/${id}`).then((result) => {
-      //let fullpath = 'images/' + result.cover.filename;
-      var desertRef = storageRef.child('fullpath');
+      let path = result.data.cover_photo.name.split('coverPhoto/').pop();
+      var desertRef = storageRef.child(path);
       // Delete the file
       desertRef.delete().then(function() {
       // File deleted successfully
@@ -395,24 +395,28 @@ function deleteEvent(id) {
             let data = "";
             console.log(result.data);
             result.data.forEach((key) => {
-               data +=
-               `<li>
-                  <h4>${key.event_name}</h4>
-                  <h4>Host College: <span>${key.host_college}</span></h4>
-                  <h4>Venue : <span>${key.venue}</span></h4>
-                  <h4>Society : <span>${key.society}</span></h4>
-                  <h4>Description : <span>${key.description}</span></h4>
-                  <h4>Form Link : <span>${key.form_link}</span></h4>
-                  <h4>Cover Link : <span><img src="${key.cover_link}" height="100"alt="" /></span></h4>
-                  <h4>Number of Participants : <span>${key.number_of_participants}</span></h4>
-                  <h4>Date : <span>${key.date}</span></h4>
-                  <h4>Prizes Worth : <span>${key.prize_description}</span></h4>
-                  <div class="action">
-                     <button id=${key._id} onclick="editEvent(this.id)" class="edit">EDIT</button>
-                     <button id=${key._id} onclick="deleteEvent(this.id)" class="delete">DELETE</button>
-                  </div>
-               </li>`
-
+               let tagsHTML = ""
+               key.tags.forEach((keyx) => {tagsHTML += `#${keyx}`})
+                  data +=
+                  `<li>
+                     <h4>${key.event_name}</h4>
+                     <h4>Host College: <span>${key.host_college}</span></h4>
+                     <h4>Venue : <span>${key.venue}</span></h4>
+                     <h4>Society : <span>${key.society}</span></h4>
+                     <h4>Description : <span>${key.description}</span></h4>
+                     <h4>Form Link : <span>${key.form_link}</span></h4>
+                     <h4>Cover Photo : <span><img src="${key.cover_photo.link}" height="100" alt="${key.cover_photo.name}" /></span></h4>
+                     <h4>Number of Participants : <span>${key.number_of_participants}</span></h4>
+                     <h4>Date : <span>${key.date}</span></h4>
+                     <h4>Prize Description : <span>${key.prize_description}</span></h4>
+                     <h4>Tags : <span>${tagsHTML}</span></h4>
+                     <h4>Event Incharge : <span>${key.event_incharge.name}</span></h4>
+                     <h4>Contact No. : <span>${key.event_incharge.mobile_number}</span></h4>
+                     <div class="action">
+                        <button id=${key._id} onclick="editEvent(this.id)" class="edit">EDIT</button>
+                        <button id=${key._id} onclick="deleteEvent(this.id)" class="delete">DELETE</button>
+                     </div>
+                  </li>`
                })
             content.innerHTML = data;
 
@@ -430,6 +434,8 @@ listEvents.addEventListener('click', () => {
       let data = "";
       console.log(result.data);
       result.data.forEach((key) => {
+      let tagsHTML = ""
+      key.tags.forEach((keyx) => {tagsHTML += `#${keyx}`})
          data +=
          `<li>
             <h4>${key.event_name}</h4>
@@ -438,10 +444,13 @@ listEvents.addEventListener('click', () => {
             <h4>Society : <span>${key.society}</span></h4>
             <h4>Description : <span>${key.description}</span></h4>
             <h4>Form Link : <span>${key.form_link}</span></h4>
-            <h4>Cover Link : <span><img src="${key.cover_link}" height="100"alt="" /></span></h4>
+            <h4>Cover Photo : <span><img src="${key.cover_photo.link}" height="100" alt="${key.cover_photo.name}" /></span></h4>
             <h4>Number of Participants : <span>${key.number_of_participants}</span></h4>
             <h4>Date : <span>${key.date}</span></h4>
-            <h4>Prizes Worth : <span>${key.prize_description}</span></h4>
+            <h4>Prize Description : <span>${key.prize_description}</span></h4>
+            <h4>Tags : <span>${tagsHTML}</span></h4>
+            <h4>Event Incharge : <span>${key.event_incharge.name}</span></h4>
+            <h4>Contact No. : <span>${key.event_incharge.mobile_number}</span></h4>
             <div class="action">
                <button id=${key._id} onclick="editEvent(this.id)" class="edit">EDIT</button>
                <button id=${key._id} onclick="deleteEvent(this.id)" class="delete">DELETE</button>
@@ -450,5 +459,5 @@ listEvents.addEventListener('click', () => {
 
          })
       content.innerHTML = data;
-   }).catch((err) => {content.innerHTML = "<h2>You Don't have any Events yet.</h2>"})
+   }).catch((err) => {content.innerHTML = `<h2 class="noEvent">You Don't have any Events yet.</h2>`})
 })
