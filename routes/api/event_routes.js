@@ -51,10 +51,18 @@ router.post('/', passport.authenticate('jwt', {session : true}) , acc_type_autho
          description : req.body.description,
          society : req.body.society,
          form_link : req.body.form_link,
-         cover_link : req.body.cover_link,
+         cover_photo : {
+            name: req.body.cover_photo.name,
+            link: req.body.cover_photo.link
+         },
          number_of_participants : req.body.number_of_participants,
          date : req.body.date,
-         prizes_worth : req.body.prizes_worth,
+         prize_description : req.body.prize_description,
+         tags: req.body.tags,
+         event_incharge : {
+            name : req.body.event_incharge.name,
+            mobile_number: req.body.event_incharge.mobile_number
+         }
       })
       newEvent.save().then((result) => {
          res.json(result)
@@ -79,10 +87,18 @@ router.put('/:id', passport.authenticate('jwt', {session : true}) , acc_type_aut
                   description : req.body.description,
                   society : req.body.society,
                   form_link : req.body.form_link,
-                  cover_link : req.body.cover_link,
+                  cover_photo : {
+                     name: req.body.cover_photo.name,
+                     link: req.body.cover_photo.link
+                  },
                   number_of_participants : req.body.number_of_participants,
                   date : req.body.date,
-                  prizes_worth : req.body.prizes_worth,
+                  prize_description : req.body.prize_description,
+                  tags: req.body.tags,
+                  event_incharge : {
+                     name : req.body.event_incharge.name,
+                     mobile_number: req.body.event_incharge.mobile_number
+                  }
                }
                 Event.findByIdAndUpdate({_id : req.params.id}, updatedEvent).then(() => {
                    Event.findOne({_id : req.params.id}).then((result) => {

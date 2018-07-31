@@ -11,7 +11,7 @@ router.get('/register', (req, res) => {
    res.render('register');
 })
 
-router.get('/dashboard' ,passport.authenticate('jwt', {session : false}), (req, res) => {
+router.get('/dashboard' ,passport.authenticate('jwt', {session : false, failureRedirect:'/organizer/login'}), (req, res) => {
    res.render('dashboard');
 })
 

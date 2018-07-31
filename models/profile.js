@@ -7,25 +7,19 @@ const profileSchema = mongoose.Schema({
          type: mongoose.Schema.Types.ObjectId,
          ref:'users'
       },
-      username :{
-         type: String,
-         required: true,
-         max: 30
-      },
-      mobile_number :{
-         type: String,
-         required:true,
-         // max:10 ?
-      },
-      college:{
-         type:String,
-         required:true
-      },
-      field_of_study:{
+      society_name : {
          type: String,
          required: true
       },
-      year:{
+      college:{
+         type: String,
+         required: true
+      },
+      president_name :{
+         type:String,
+         required :true
+      },
+      mobile_number:{
          type: Number,
          required: true
       }

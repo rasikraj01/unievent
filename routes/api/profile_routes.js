@@ -25,47 +25,28 @@ router.get('/', passport.authenticate('jwt', {session:false}), (req, res) => {
    }
 })
 
-//to check of username Exists
-router.get('/username/:username', passport.authenticate('jwt', {session: false}), (req, res) => {
-   if (req.user) {
-      Profile.findOne({username : req.params.username}).then((value) => {
-         if(value){
-            res.json({message : 'Username Taken. Please Select a different Username'})
-         }else{
-               res.json({message : 'Username Available'})
-         }
-   }).catch((err) => console.log(err))
-   }
-})
-
 // create a profile for the current user
 router.post('/', passport.authenticate('jwt', {session:false}), (req, res) => {
    const profileF = {
          user : req.user.id,
-         username : req.body.username,
-         mobile_number : req.body.mobile_number,
+         society_name : req.body.society_name,
          college : req.body.college,
-         field_of_study : req.body.field_of_study,
-         year : req.body.year
+         president_name : req.body.president_name,
+         mobile_number : req.body.mobile_number
    }
    Profile.findOne({user : req.user.id}).then((result) => {
       if(result){
-         Profile.findOneAndUpdate({user : req.user.id}, {$set : profileF}, {new: true }).then((updated_profile) => {
-            res.json(updated_profile)
-      }).catch((err) => {console.log(err)})
+         Profile.findOneAndUpdate({user : req.user.id}, {$set : profileF}, {new: true })
+         .then((updated_profile) => res.json(updated_profile))
+         .catch((err) => console.log(err))
       }
       else{
-         //check if mobile mobile_number is valid using 2FA ?
-         Profile.findOne({username : profileF.username}).then((value) => {
-            if(value){
-               res.json({message : 'Username Taken. Please Select a different Username'})
-            }else{
-               const newProfile = new Profile(profileF);
-               newProfile.save().then((result) => {res.json(result)}).catch((err) => console.log(err))
-            }
-         })
-      }
-   }).catch((err) => {console.log(err)})
+         const newProfile = new Profile(profileF);
+         newProfile.save()
+            .then((result) => res.json(result))
+            .catch((err) => console.log(err))
+         }
+      }).catch((err) => console.log(err))      
 })
 
 
@@ -74,10 +55,10 @@ router.post('/', passport.authenticate('jwt', {session:false}), (req, res) => {
 router.patch('/', passport.authenticate('jwt', {session: false}), (req, res) => {
    if(req.user){
       const ProfileF = {
-            mobile_number : req.body.mobile_number,
+            society_name : req.body.society_name,
             college : req.body.college,
-            field_of_study : req.body.field_of_study,
-            year : req.body.year
+            president_name : req.body.president_name,
+            mobile_number : req.body.mobile_number,
       }
       Profile.findOne({user : req.user.id}).then((result) => {
          if(result){

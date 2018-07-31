@@ -21,17 +21,23 @@ const eventSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    society :{
+    society : {
         type:String,
         required:true
     },
     form_link:{
         type: String,
-        require: true
+        required: true
     },
-    cover_link:{
-      type:String,
-      required:true
+    cover_photo:{
+      link:{
+         type: String,
+         required: true
+      },
+      name:{
+         type: String,
+         required: true
+      }
    },
     number_of_participants :{
       type:Number,
@@ -40,14 +46,26 @@ const eventSchema = mongoose.Schema({
    date : {
       type: Date,
       required: true,
-      //abhi k liye hai ye bs remember to remove
-      default : Date.now
    },
-   prizes_worth: {
+   prize_description: {
       type: String,
       required: true
+   },
+   tags:{
+      type: [String],
+      required: true
+   },
+   event_incharge:{
+      name:{
+         type:String,
+         required: true
+      },
+      mobile_number:{
+         type:Number,
+         required: true
+      }
    }
-   // contact org + contact mobile muber field
+
 });
 
 const Event = mongoose.model('event', eventSchema);

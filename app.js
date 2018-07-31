@@ -18,7 +18,6 @@ require('./config/passport-setup')(passport)
 /****************
 
 TODO:
-2. Image Storage
 3. Keys protection -- heroku enviroment variables
 5. Data Validations
 7. Model Restructing  // add fullpath
@@ -33,7 +32,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // mongoose connection
-//mongoose.connect('mongodb://localhost:27017/univent', { useNewUrlParser: true }).then(() => console.log('mongoose running on DEV MACHINE'));
 mongoose.connect('mongodb://admin:admin123@ds231941.mlab.com:31941/univent' , { useNewUrlParser: true }).then(() => console.log('Database Connected'));
 mongoose.Promise = global.Promise;
 

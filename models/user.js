@@ -2,18 +2,14 @@ const mongoose = require('mongoose');
 // rename to organizer
 
 const userSchema = mongoose.Schema({
-   name :{
-      type: String,
-      required: true
-   },
-   email:{
+   society_email:{
       type: String,
       required: true
    },
    password:{
       type: String,
       required: true
-   },
+   }, 
    acc_type:{// organizer or participant
       type: String,
       required: true
@@ -22,7 +18,6 @@ const userSchema = mongoose.Schema({
       type:Date,
       default: Date.now
    }
-
 });
 
 const User = mongoose.model('user', userSchema);
