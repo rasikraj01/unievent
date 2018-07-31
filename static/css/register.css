@@ -60,3 +60,9 @@ input[type="submit"]{
    cursor: pointer;
    outline: none;
 }
+.Error{
+   color:red;
+}
+#register_form{
+   color:black;
+}

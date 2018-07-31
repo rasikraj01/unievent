@@ -10,32 +10,44 @@ const Event = require('../../models/event');
 const User = require('../../models/user');
 const Profile = require('../../models/profile');
 
+const validateRegisterInput = require('../../validation/register');
+
 const router = express.Router();
 
 // to register a new user
 router.post('/register', (req, res) => {
-   User.findOne({society_email: req.body.society_email}).then((result) => {
-      if (!result){
-         const new_User = new User({
-            society_email : req.body.society_email,
-            password: req.body.password,
-            acc_type : req.body.acc_type
-         })
+      const {errs, isValid} = validateRegisterInput(req.body);
 
-         bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(new_User.password, salt, (err, hash) => {
-               if (err) throw err;3
-               new_User.password = hash;
-               new_User.save().then((result) => {
-                  res.json(result)
-               }).catch((err) => {console.log(err)})
-            })
-         })
-      } // if condition ends
-      else{
-         res.json({message : 'Email already exists'})
+      if(!isValid){ // check validation // if errs is true
+         errs._id = null;
+         res.json(errs)
       }
-   })
+      else{
+            User.findOne({society_email: req.body.society_email}).then((result) => {
+               if (!result){
+                  const new_User = new User({
+                     society_email : req.body.society_email,
+                     password: req.body.password,
+                     acc_type : req.body.acc_type
+                  })
+
+                  bcrypt.genSalt(10, (err, salt) => {
+                     bcrypt.hash(new_User.password, salt, (err, hash) => {
+                        if (err) throw err;3
+                        new_User.password = hash;
+                        new_User.save().then((result) => {
+
+                           console.log(result);
+                           res.json(result)
+                        }).catch((err) => {console.log(err)})
+                     })
+                  })
+               } // if condition ends
+               else{
+                  res.json({message : 'Email already exists'})
+               }
+            })
+         }
 })
 
 // to login a resgistered User
