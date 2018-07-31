@@ -17,7 +17,7 @@ submit.addEventListener('click' , (e) => {
                console.log(res.data);
                window.location.href = '/organizer/login';
             }else{
-            console.log(res);
+            console.log(res.data);
             }
             })
          .catch((err) => {

@@ -12,12 +12,14 @@ submit.addEventListener('click' , (e) => {
    }
    axios.post('/api/user/login', data)
       .then((res) => {
-            document.getElementById('login_form').reset();
-            console.log(res.data);
-            if (res.data.success)
+            if(res.data.success != false){
+               document.getElementById('login_form').reset();
+               console.log(res.data);
                window.location.href = '/organizer/dashboard';
-            else
-               console.log(res.data.message);
+            }
+            else{
+               console.log(res.data);
+            }
          })
       .catch((err) => console.log(err))
 });

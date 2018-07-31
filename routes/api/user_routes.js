@@ -52,28 +52,36 @@ router.post('/register', (req, res) => {
 
 // to login a resgistered User
 router.post('/login', (req, res) => {
-   const society_email = req.body.society_email;
-   const password = req.body.password;
-   User.findOne({society_email}).then((result) => {
-      if(!result){
-         return res.json({message : 'email not found'})
+
+   const {errs, isValid} = validateRegisterInput(req.body);
+      if(!isValid){ // check validation // if errs is true
+         errs.success = false;
+         res.json(errs)
       }
-      bcrypt.compare(password, result.password).then((match) => {
-         if(match){
-               const payload = {
-                  id : result.id,
-                  society_email : result.society_email,
-                  acc_type : result.acc_type
-               } //jwt payload
-               jwt.sign(payload, 'abcssss', { expiresIn: 3600}, (err, token) => {
-                  res.cookie('jwt', `${token}`).json({success: true, token: 'Bearer ' + token });
-               })
-         }
-         else{
-            return res.json({message: 'incorrect password'})
-         }
-      })
-   })
+      else{
+         const society_email = req.body.society_email;
+         const password = req.body.password;
+         User.findOne({society_email}).then((result) => {
+            if(!result){
+               return res.json({message : 'email not found', success: false})
+            }
+            bcrypt.compare(password, result.password).then((match) => {
+               if(match){
+                     const payload = {
+                        id : result.id,
+                        society_email : result.society_email,
+                        acc_type : result.acc_type
+                     } //jwt payload
+                     jwt.sign(payload, 'abcssss', { expiresIn: 3600}, (err, token) => {
+                        res.cookie('jwt', `${token}`).json({success: true, token: 'Bearer ' + token });
+                     })
+               }
+               else{
+                  return res.json({message: 'incorrect password', success: false})
+               }
+            })
+         })
+   }
 });
 
 
