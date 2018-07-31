@@ -2,12 +2,21 @@ axios({
    method:'get',
    url:'/api/user/current',
 }).then((value) => {
-   if(value.status == 200){
-      document.getElementById('title').innerHTML = `${value.data.name} | Dashboard`;
-      document.getElementById('currentUser').innerHTML = `${value.data.name}`;
-      localStorage.setItem('user', value.data._id)
-   }
-})
+      if(value.status == 200){
+         localStorage.setItem('user', value.data._id)
+         axios({
+            method: 'get',
+            url: '/api/profile/'
+         }).then((result) => {
+               if(result.data.society_name != undefined){
+                  $('#title').html(`${result.data.society_name} | Dashboard`);
+                  $('#currentUser').html( `${result.data.society_name}`);
+               }else{
+                  $('.welcome').html('Please add a Profile');
+               }
+            })
+      }
+   })
 
 const title = document.getElementById('title');
 const logoutButton = document.getElementById('logout');
@@ -23,29 +32,31 @@ currentUser.addEventListener('click', () => {
 
 let eventFormHTML = `
    <h3 >Create Form</h3>
-   <form id="eventForm">
-   <input autofocus type="text" name="event_name" value="" placeholder="event_name" id="event_name"><br>
-   <input name="host_college" placeholder="host_college" type="text" id="host_college"><br>
-   <input name="venue" placeholder="venue" type="text" id="venue"><br>
-   <input name="society" placeholder="society" type="text" id="society"><br>
-   <input name="description" placeholder="description" type="text" id="description"><br>
-   Upload Cover Photo : <input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
-   <input name="form_link" placeholder="form_link" type="text" id="form_link"><br>
-   <input name="number_of_participants" placeholder="number_of_participants" type="text" id="number_of_participants"><br>
-   <input name="date" placeholder="date" type="date" id="date"><br>
-   <input name="prizes_worth" placeholder="prizes_worth" type="text" id="prizes_worth"><br>
+      <form id="eventForm">
+         <input autofocus type="text" name="event_name" value="" placeholder="event_name" id="event_name"><br>
+         <input name="host_college" placeholder="host_college" type="text" id="host_college"><br>
+         <input name="venue" placeholder="venue" type="text" id="venue"><br>
+         <input name="description" placeholder="description" type="text" id="description"><br>
+         <input name="society" placeholder="society" type="text" id="society"><br>
+         <input name="form_link" placeholder="form_link" type="text" id="form_link"><br>
+         Upload Cover Photo : <input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
+         <input name="number_of_participants" placeholder="number_of_participants" type="text" id="number_of_participants"><br>
+         <input name="date" placeholder="date" type="date" id="date"><br>
+         <input name="prize_description" placeholder="prize_description" type="text" id="prize_description"><br>
+         <input type="text" name="tags" placeholder="add tags on lowercase seprated by comma" id="tags"><br>
+         <input name="event_incharge" placeholder="Event Incharge Name" type="text" id="event_incharge"><br>
+         <input type="text" id="mobile_number" name="mobile_number" value="" placeholder="Event Incharge Mobile Number">
 
-   <progress value="0" max="100" id="progressBar"></progress>
-   <input type="submit" name="register" value="Create Event" id="newEventSubmit" class="file-submit">
-</form>`
+         <progress value="0" max="100" id="progressBar"></progress>
+         <input type="submit" name="register" value="Create Event" id="newEventSubmit" class="file-submit">
+   </form>`
 let profileFormHTML = `
                   <h3 class="profileHead">Your Profile</h3>
                   <form id="profileForm">
-                  <input autofocus type="text" name="username" value="" placeholder="username" id="username"><br>
-                  <input name="mobile_number" placeholder="mobile_number" type="text" id="mobile_number" maxlength="10"><br>
+                  <input autofocus type="text" name="society_name" value="" placeholder="society_name" id="society_name"><br>
                   <input name="college" placeholder="college" type="text" id="college"><br>
-                  <input name="field_of_study" placeholder="field_of_study" type="text" id="field_of_study"><br>
-                  <input name="year" placeholder="year" type="text" id="year" maxlength="1"><br>
+                  <input name="president_name" placeholder="president_name" type="text" id="president_name"><br>
+                  <input name="p_mobile_number" placeholder="mobile_number" type="text" id="p_mobile_number" maxlength="10"><br>
 
                   <input type="submit" name="register" value="Update Profile" id="UpdateProfileSubmit">
                </form>`
@@ -69,11 +80,10 @@ logoutButton.addEventListener('click', () => {
 profile.addEventListener('click', () => {
    content.innerHTML = profileFormHTML;
 
-   const username = document.getElementById('username');
-   const mobile_number = document.getElementById('mobile_number');
+   const society_name = document.getElementById('society_name');
    const  college = document.getElementById('college');
-   const field_of_study = document.getElementById('field_of_study');
-   const year = document.getElementById('year');
+   const president_name = document.getElementById('president_name');
+   const p_mobile_number = document.getElementById('p_mobile_number');
    const UpdateProfileSubmit = document.getElementById('UpdateProfileSubmit');
    axios({
       method:'get',
@@ -82,21 +92,18 @@ profile.addEventListener('click', () => {
       if(result.data.status === 404){
       }
       else{
-         username.value = result.data.username;
-         mobile_number.value = result.data.mobile_number;
+         society_name.value = result.data.society_name;
          college.value = result.data.college;
-         field_of_study.value = result.data.field_of_study;
-         year.value = result.data.year;
-
+         president_name.value = result.data.president_name;
+         p_mobile_number.value = result.data.mobile_number;
 
          UpdateProfileSubmit.addEventListener('click', (e) => {
             e.preventDefault();
             let data = {
-               username : username.value,
-               mobile_number : mobile_number.value,
+               society_name : society_name.value,
                college : college.value,
-               field_of_study : field_of_study.value,
-               year: year.value
+               president_name : president_name.value,
+               mobile_number : p_mobile_number.value
             }
             axios({
                method:'post',
@@ -127,7 +134,10 @@ var config = {
           var uploadsMetadata = {
             cacheControl: "max-age=" + (60 * 60 * 24 * 365), // One year of seconds
           };
-            let downloadURL;
+            let downloadImg = {
+               downloadURL: "",
+               fullpath : ""
+            };
 
 
 createEvent.addEventListener('click', () => {
@@ -144,9 +154,11 @@ createEvent.addEventListener('click', () => {
    //const cover_link = document.getElementById('cover_link');
    const number_of_participants = document.getElementById('number_of_participants');
    const date = document.getElementById('date');
-   const prizes_worth = document.getElementById('prizes_worth');
+   const prize_description = document.getElementById('prize_description');
+   const event_incharge = document.getElementById('event_incharge');
+   const mobile_number = document.getElementById('mobile_number');
+   const tags = document.getElementById('tags');
    const newEventSubmit = document.getElementById('newEventSubmit');
-
    document.getElementById('file-select').addEventListener('change', handleFileUploadChange);
 
    let selectedFile;
@@ -175,10 +187,10 @@ createEvent.addEventListener('click', () => {
               // Do something once upload is complete
               console.log('success');
               storageRef.child(`images/${filename}`).getDownloadURL().then((result) => {
-                  let fullpath = uploadTask.snapshot.metadata.fullPath;
-                 downloadURL = result;
+                  downloadImg.fullpath = uploadTask.snapshot.metadata.fullPath;
+                 downloadImg.downloadURL = result;
 
-                 resolve( downloadURL);
+                 resolve( downloadImg);
               })
            });
         }else{
@@ -189,8 +201,8 @@ createEvent.addEventListener('click', () => {
       });
 
       e.preventDefault();
-      handleFileUploadSubmit.then((downloadURL) => {
-               console.log(downloadURL);
+      handleFileUploadSubmit.then((downloadImg) => {
+               console.log(downloadImg);
                let data = {
                   event_name : event_name.value,
                   host_college : host_college.value,
@@ -198,10 +210,19 @@ createEvent.addEventListener('click', () => {
                   society : society.value,
                   description : description.value,
                   form_link : form_link.value,
-                  cover_link: downloadURL,
+                  cover_photo:{
+                     link: downloadImg.downloadURL,
+                     name : downloadImg.fullpath
+                  },
                   number_of_participants: number_of_participants.value,
                   date: date.value,
-                  prizes_worth: prizes_worth.value
+                  prize_description: prize_description.value,
+                  tags :tags.value.split(','),
+                  event_incharge : {
+                     name : event_incharge.value,
+                     mobile_number : mobile_number.value
+                  }
+
                }
                axios.post('/api/event', data).then((result) => {
                      document.getElementById("progressBar").value = 100;
@@ -212,7 +233,7 @@ createEvent.addEventListener('click', () => {
       }).catch((err) => {
                document.getElementById("progressBar").value = 0;
                newEventSubmit.style.background = 'red';
-               console.log('sent');
+               console.log(err);
       })
    })
 })
@@ -235,7 +256,7 @@ function editEvent(id) {
             <input name="form_link" placeholder="form_link" type="text" id="form_link" value="${result.data.form_link}"><br>
             <input name="number_of_participants" placeholder="number_of_participants" type="text" id="number_of_participants" value="${result.data.number_of_participants}"><br>
             <input name="date" placeholder="date" type="datetime" id="date" value="${result.data.date}"><br>
-            <input name="prizes_worth" placeholder="prizes_worth" type="text" id="prizes_worth" value="${result.data.prizes_worth}"> <br>
+            <input name="prize_description" placeholder="prize_description" type="text" id="prize_description" value="${result.data.prize_description}"> <br>
                   <progress value="0" max="100" id="progressBar"></progress><br>
             <input type="submit" name="edit event" value="Edit Event" id="editEventSubmit">
          </form>`
@@ -251,7 +272,7 @@ function editEvent(id) {
          //const cover_link = document.getElementById('cover_link');
          const number_of_participants = document.getElementById('number_of_participants');
          const date = document.getElementById('date');
-         const prizes_worth = document.getElementById('prizes_worth');
+         const prize_description = document.getElementById('prize_description');
          const editEventSubmit = document.getElementById('editEventSubmit');
          downloadURL = result.data.cover_link; // .cover.downloadURL
          //const Rcfullpath = 'images/'+ result.cover.fullpath;
@@ -343,7 +364,7 @@ function editEvent(id) {
                   cover_link: downloadURL,
                   number_of_participants: number_of_participants.value,
                   date: date.value,
-                  prizes_worth: prizes_worth.value
+                  prize_description: prize_description.value
                }
 
                axios.put(`/api/event/${result.data._id}`, data).then((result) => {
@@ -385,7 +406,7 @@ function deleteEvent(id) {
                   <h4>Cover Link : <span><img src="${key.cover_link}" height="100"alt="" /></span></h4>
                   <h4>Number of Participants : <span>${key.number_of_participants}</span></h4>
                   <h4>Date : <span>${key.date}</span></h4>
-                  <h4>Prizes Worth : <span>${key.prizes_worth}</span></h4>
+                  <h4>Prizes Worth : <span>${key.prize_description}</span></h4>
                   <div class="action">
                      <button id=${key._id} onclick="editEvent(this.id)" class="edit">EDIT</button>
                      <button id=${key._id} onclick="deleteEvent(this.id)" class="delete">DELETE</button>
@@ -420,7 +441,7 @@ listEvents.addEventListener('click', () => {
             <h4>Cover Link : <span><img src="${key.cover_link}" height="100"alt="" /></span></h4>
             <h4>Number of Participants : <span>${key.number_of_participants}</span></h4>
             <h4>Date : <span>${key.date}</span></h4>
-            <h4>Prizes Worth : <span>${key.prizes_worth}</span></h4>
+            <h4>Prizes Worth : <span>${key.prize_description}</span></h4>
             <div class="action">
                <button id=${key._id} onclick="editEvent(this.id)" class="edit">EDIT</button>
                <button id=${key._id} onclick="deleteEvent(this.id)" class="delete">DELETE</button>
@@ -429,5 +450,5 @@ listEvents.addEventListener('click', () => {
 
          })
       content.innerHTML = data;
-   }).catch((err) => {console.log('err ' + err);})
+   }).catch((err) => {content.innerHTML = "<h2>You Don't have any Events yet.</h2>"})
 })

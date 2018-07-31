@@ -46,7 +46,7 @@ router.post('/', passport.authenticate('jwt', {session:false}), (req, res) => {
             .then((result) => res.json(result))
             .catch((err) => console.log(err))
          }
-      }).catch((err) => console.log(err))      
+      }).catch((err) => console.log(err))
 })
 
 
