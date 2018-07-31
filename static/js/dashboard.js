@@ -53,17 +53,31 @@ let eventFormHTML = `
 let profileFormHTML = `
                   <h3 class="profileHead">Your Profile</h3>
                   <form id="profileForm">
-                  <input autofocus type="text" name="society_name" value="" placeholder="society_name" id="society_name"><br>
-                  <input name="college" placeholder="college" type="text" id="college"><br>
-                  <input name="president_name" placeholder="president_name" type="text" id="president_name"><br>
-                  <input name="p_mobile_number" placeholder="mobile_number" type="text" id="p_mobile_number" maxlength="10"><br>
-
-                  <input type="submit" name="register" value="Update Profile" id="UpdateProfileSubmit">
+                     <input autofocus type="text" name="society_name" value="" placeholder="society_name" id="society_name"><br>
+                     <input name="college" placeholder="college" type="text" id="college"><br>
+                     <input name="president_name" placeholder="president_name" type="text" id="president_name"><br>
+                     <input name="p_mobile_number" placeholder="mobile_number" type="text" id="p_mobile_number" maxlength="10"><br>
+                  <input type="submit" id="submit" value="Update Profile"/>
                </form>`
 
-
-
 let view ;
+
+var config = {
+  apiKey: "AIzaSyB3vQA5pao10VNudEeaReemUT62uaBxgtw",
+  authDomain: "univent-81163.firebaseapp.com",
+  databaseURL: "https://univent-81163.firebaseio.com",
+  projectId: "univent-81163",
+  storageBucket: "univent-81163.appspot.com"
+};
+firebase.initializeApp(config);
+var storageRef = firebase.storage().ref('coverPhoto');
+var uploadsRef = firebase.database().ref('coverPhoto');
+var uploadsMetadata = { cacheControl: "max-age=" + (60 * 60 * 24 * 365)};
+let downloadImg = {
+   downloadURL: "",
+   fullpath : ""
+};
+
 
 logoutButton.addEventListener('click', () => {
 
@@ -84,60 +98,39 @@ profile.addEventListener('click', () => {
    const  college = document.getElementById('college');
    const president_name = document.getElementById('president_name');
    const p_mobile_number = document.getElementById('p_mobile_number');
-   const UpdateProfileSubmit = document.getElementById('UpdateProfileSubmit');
-   axios({
-      method:'get',
-      url:'/api/profile/'
-   }).then((result) => {
-      if(result.data.status === 404){
-      }
-      else{
+   const submit = document.getElementById('submit');
+
+   axios('/api/profile/').then((result) => {
+         if(result.data.status == 404){
+            console.log('no prev data');
+         }else{
          society_name.value = result.data.society_name;
          college.value = result.data.college;
          president_name.value = result.data.president_name;
          p_mobile_number.value = result.data.mobile_number;
+         }
+      })
 
-         UpdateProfileSubmit.addEventListener('click', (e) => {
+         submit.addEventListener('click', function(e) {
             e.preventDefault();
             let data = {
                society_name : society_name.value,
                college : college.value,
                president_name : president_name.value,
-               mobile_number : p_mobile_number.value
+               mobile_number : p_mobile_number.value,
             }
             axios({
                method:'post',
                url:'/api/profile/',
                data : data,
             }).then((result) => {
-                  UpdateProfileSubmit.style.background = '#4CAF50'
+                  submit.style.background = '#4CAF50';
+                  location.reload();
                })
-               .catch(() => {console.log('err');})
-         })
-      }
-   }).catch((result) => {
-      console.log(result);
-   })
+               .catch((err) => {console.log(err);submit.style.background = 'red';})
+      })
 })
-var config = {
-  apiKey: "AIzaSyB3vQA5pao10VNudEeaReemUT62uaBxgtw",
-  authDomain: "univent-81163.firebaseapp.com",
-  databaseURL: "https://univent-81163.firebaseio.com",
-  projectId: "univent-81163",
-  storageBucket: "univent-81163.appspot.com"
-};
 
-   firebase.initializeApp(config);
-
-   var storageRef = firebase.storage().ref('coverPhoto');
-          var uploadsRef = firebase.database().ref('coverPhoto');
-          var uploadsMetadata = {
-            cacheControl: "max-age=" + (60 * 60 * 24 * 365), // One year of seconds
-          };
-            let downloadImg = {
-               downloadURL: "",
-               fullpath : ""
-            };
 
 
 createEvent.addEventListener('click', () => {
