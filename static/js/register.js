@@ -1,16 +1,12 @@
-//const axios = require('axios');
-
 const submit = document.getElementById("submit");
 
 submit.addEventListener('click' , (e) => {
-   const name = document.getElementById("name").value;
-   const email = document.getElementById("email").value;
-   const password = document.getElementById("password").value;
    e.preventDefault();
+   const society_email = document.getElementById("society_email").value;
+   const password = document.getElementById("password").value;
    // check if all values are valid and not empty and  then make the request
    const data = {
-      name,
-      email,
+      society_email,
       password,
       acc_type : 'organizer'
    }
@@ -18,8 +14,7 @@ submit.addEventListener('click' , (e) => {
       .then((res) => {
             document.getElementById('register_form').reset();
             console.log(res.data);
-            let success = `<a href="/organizer/login">Registeration successFull. <br> Click Here to Login</a>`;
-            document.getElementById('register').innerHTML += success;
+            window.location.href = '/organizer/login';
          })
       .catch((err) => {
          document.getElementById('register_form').reset();

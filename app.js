@@ -23,7 +23,6 @@ TODO:
 7. Model Restructing  // add fullpath
 9. Edge Cases review
 20. register error handle and edge cases -- data validations
-21. event tags
 22. token expiration time :  https://stackoverflow.com/questions/27978868/destroy-cookie-nodejs
 
 ****************/

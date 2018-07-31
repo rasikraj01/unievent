@@ -45,7 +45,7 @@ input{
 }
 
 
-input[type="text"]{
+input:first-child{
    margin-top: 2em;
 }
 

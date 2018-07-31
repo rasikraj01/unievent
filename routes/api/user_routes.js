@@ -33,7 +33,7 @@ router.post('/register', (req, res) => {
          })
       } // if condition ends
       else{
-         res.status(400).json({message : 'Email already exists'})
+         res.json({message : 'Email already exists'})
       }
    })
 })
@@ -44,7 +44,7 @@ router.post('/login', (req, res) => {
    const password = req.body.password;
    User.findOne({society_email}).then((result) => {
       if(!result){
-         return res.status(404).json({message : 'email not found'})
+         return res.json({message : 'email not found'})
       }
       bcrypt.compare(password, result.password).then((match) => {
          if(match){
@@ -58,7 +58,7 @@ router.post('/login', (req, res) => {
                })
          }
          else{
-            return res.status(400).json({message: 'incorrect password'})
+            return res.json({message: 'incorrect password'})
          }
       })
    })
