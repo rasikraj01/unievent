@@ -251,12 +251,15 @@ function editEvent(id) {
             <input name="venue" placeholder="venue" type="text" id="venue" value="${result.data.venue}"><br>
             <input name="society" placeholder="society" type="text" id="society" value="${result.data.society}"><br>
             <input name="description" placeholder="description" type="text" id="description" value="${result.data.description}"><br>
-            <img src="${result.data.cover_link}" class="cover-pic" height="100">
+            <img src="${result.data.cover_photo.link}" class="cover-pic" height="100">
             <input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
             <input name="form_link" placeholder="form_link" type="text" id="form_link" value="${result.data.form_link}"><br>
             <input name="number_of_participants" placeholder="number_of_participants" type="text" id="number_of_participants" value="${result.data.number_of_participants}"><br>
             <input name="date" placeholder="date" type="datetime" id="date" value="${result.data.date}"><br>
             <input name="prize_description" placeholder="prize_description" type="text" id="prize_description" value="${result.data.prize_description}"> <br>
+            <input type="text" name="tags" placeholder="add tags on lowercase seprated by comma" id="tags" value="${result.data.tags}"><br>
+            <input name="event_incharge" placeholder="Event Incharge Name" type="text" id="event_incharge" value="${result.data.event_incharge.name}"><br>
+            <input type="text" id="mobile_number" name="mobile_number" value="${result.data.event_incharge.mobile_number}" placeholder="Event Incharge Mobile Number">
                   <progress value="0" max="100" id="progressBar"></progress><br>
             <input type="submit" name="edit event" value="Edit Event" id="editEventSubmit">
          </form>`
@@ -274,8 +277,10 @@ function editEvent(id) {
          const date = document.getElementById('date');
          const prize_description = document.getElementById('prize_description');
          const editEventSubmit = document.getElementById('editEventSubmit');
-         downloadURL = result.data.cover_link; // .cover.downloadURL
-         //const Rcfullpath = 'images/'+ result.cover.fullpath;
+         downloadImg.downloadURL = result.data.cover_photo.link; // .cover.downloadURL
+
+         downloadImg.fullpath = result.data.cover_photo.name.split('coverPhoto/').pop();
+
          let selectedFile;
 
 
@@ -307,6 +312,7 @@ function editEvent(id) {
                let filesize = selectedFile.size;
                var handleFileUploadSubmit = new Promise(function(resolve, reject){
                   if (filesize <= 500000) {
+                     console.log('runni');
                      let filename =selectedFile.name + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
                      const uploadTask = storageRef.child(`images/${filename}`).put(selectedFile, uploadsMetadata); //create a child directory called images, and place the file inside this directory
                      uploadTask.on('state_changed', (snapshot) => {
@@ -314,16 +320,15 @@ function editEvent(id) {
                      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                         console.log('Upload is ' + progress + '% done');
                      document.getElementById("progressBar").value = progress - 10;
-
-                     // var desertRef = storageRef.child('fullpath');
-                     // // Delete the file
-                     // desertRef.delete().then(function() {
-                     // // File deleted successfully
-                     // console.log('del');
-                     // }).catch(function(error) {
-                     // console.log('olo');
-                     // })
-                     console.log('old file deleted');
+                     console.log('path' + downloadImg.fullpath);
+                     var desertRef = storageRef.child(downloadImg.fullpath);
+                     // Delete the file
+                     desertRef.delete().then(function() {
+                     // File deleted successfully
+                     console.log('del');
+                     }).catch(function(error) {
+                     console.log(error);
+                     })
 
                     // Observe state change events such as progress, pause, and resume
                      }, (error) => {
@@ -333,26 +338,25 @@ function editEvent(id) {
                        // Do something once upload is complete
                        console.log('success');
                        storageRef.child(`images/${filename}`).getDownloadURL().then((result) => {
-                           let fullpath = uploadTask.snapshot.metadata.fullPath;
-                          downloadURL = result;
-
-                          resolve( downloadURL);
+                          downloadImg.fullpath = uploadTask.snapshot.metadata.fullPath;
+                          downloadImg.downloadURL = result;
+                          resolve( downloadImg);
                        })
                     });
                  }else{
                     console.log('file is too big');
-                    reject(downloadURL);
+                    reject(downloadImg);
                  }
 
                });
             }
             else{
                var handleFileUploadSubmit = new Promise(function (resolve, reject) {
-                  resolve(downloadURL)
+                  resolve(downloadImg)
                })
             }
 
-            handleFileUploadSubmit.then((downloadURL) => {
+            handleFileUploadSubmit.then((downloadImg) => {
 
                let data = {
                   event_name : event_name.value,
@@ -361,13 +365,22 @@ function editEvent(id) {
                   society : society.value,
                   description : description.value,
                   form_link : form_link.value,
-                  cover_link: downloadURL,
+                  cover_photo:{
+                     link: downloadImg.downloadURL,
+                     name : downloadImg.fullpath
+                  },
                   number_of_participants: number_of_participants.value,
                   date: date.value,
-                  prize_description: prize_description.value
+                  prize_description: prize_description.value,
+                  tags :tags.value.split(','),
+                  event_incharge : {
+                     name : event_incharge.value,
+                     mobile_number : mobile_number.value
+                  }
                }
 
                axios.put(`/api/event/${result.data._id}`, data).then((result) => {
+                  document.getElementById("progressBar").value = 100;
                   editEventSubmit.style.background = '#4CAF50'
                   console.log('Edit request Sent');
                }).catch((err) => {console.log('err' + err);})

@@ -34,7 +34,7 @@ const eventSchema = mongoose.Schema({
          type: String,
          required: true
       },
-      name:{
+      name:{ // fullpath
          type: String,
          required: true
       }
