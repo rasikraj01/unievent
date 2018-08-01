@@ -39,7 +39,7 @@ let eventFormHTML = `
          <input name="description" placeholder="description" type="text" id="description"><br>
          <input name="society" placeholder="society" type="text" id="society"><br>
          <input name="form_link" placeholder="form_link" type="text" id="form_link"><br>
-         Upload Cover Photo : <input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
+         Upload Cover Photo : <img class="cover-pic" src="" height="100"><input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
          <input name="min_number_of_participants" placeholder="min_number_of_participants" type="text" id="min_number_of_participants"><br>
          <input name="max_number_of_participants" placeholder="max_number_of_participants" type="text" id="max_number_of_participants"><br>
          <input name="date" placeholder="date" type="date" id="date"><br>
@@ -158,12 +158,24 @@ createEvent.addEventListener('click', () => {
    const mobile_number = document.getElementById('mobile_number');
    const tags = document.getElementById('tags');
    const newEventSubmit = document.getElementById('newEventSubmit');
+   var readURL = function(input) {
+  if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+          $('.cover-pic').attr('src', e.target.result);
+      }
+
+      reader.readAsDataURL(input.files[0]);
+  }
+}
    document.getElementById('file-select').addEventListener('change', handleFileUploadChange);
 
    let selectedFile;
 
    function handleFileUploadChange(e) {
      selectedFile = e.target.files[0];
+     readURL(this);
    }
    newEventSubmit.addEventListener('click', (e) => {
 
@@ -234,14 +246,14 @@ createEvent.addEventListener('click', () => {
                            console.log('sent');
                   }else{
                      console.log(result.data);
-                     var desertRef = storageRef.child(downloadImg.fullpath);
+                     var desertRef = storageRef.child(downloadImg.fullpath.split('coverPhoto/').pop());
                      // Delete the file
                      desertRef.delete().then(function() {
                      // File deleted successfully
                      console.log('del');
                      }).catch(function(error) {
                      console.log(error);
-                     })
+                  })
                      document.getElementById("progressBar").value = 0;
                   }
                   })
@@ -342,22 +354,27 @@ function editEvent(id) {
                      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                         console.log('Upload is ' + progress + '% done');
                      document.getElementById("progressBar").value = progress - 10;
-                     console.log('path' + downloadImg.fullpath);
-                     var desertRef = storageRef.child(downloadImg.fullpath);
-                     // Delete the file
-                     desertRef.delete().then(function() {
-                     // File deleted successfully
-                     console.log('del');
-                     }).catch(function(error) {
-                     console.log(error);
-                     })
+
+
 
                     // Observe state change events such as progress, pause, and resume
                      }, (error) => {
                      // Handle unsuccessful uploads
                      console.log(error);
                     }, () => {
+
                        // Do something once upload is complete
+                       var desertRef = storageRef.child(downloadImg.fullpath);
+                       console.log('deleteing ' + downloadImg.fullpath);
+                       // Delete the file
+                       desertRef.delete().then(function() {
+                       // File deleted successfully
+                       console.log('del');
+
+                       }).catch(function(error) {
+                       console.log(error);
+                       })
+
                        console.log('success');
                        storageRef.child(`images/${filename}`).getDownloadURL().then((result) => {
                           downloadImg.fullpath = uploadTask.snapshot.metadata.fullPath;
@@ -405,9 +422,27 @@ function editEvent(id) {
                }
 
                axios.put(`/api/event/${result.data._id}`, data).then((result) => {
-                  document.getElementById("progressBar").value = 100;
-                  editEventSubmit.style.background = '#4CAF50'
-                  console.log('Edit request Sent');
+                  if(result.data._id != null){
+                        document.getElementById("progressBar").value = 100;
+                        editEventSubmit.style.background = '#4CAF50'
+                        console.log('Edit request Sent');
+                  }else{
+                     console.log(result.data);
+                     if(change==true){
+
+                       console.log('deleteing ' + downloadImg.fullpath);
+                        let path = downloadImg.fullpath.split('coverPhoto/').pop();
+                        var desertRef = storageRef.child(path);
+                        // Delete the file
+                        desertRef.delete().then(function() {
+                        // File deleted successfully
+                        console.log('del false');
+                        }).catch(function(error) {
+                        console.log('olo');
+                        })
+                        document.getElementById("progressBar").value = 0;
+                     }
+                  }
                }).catch((err) => {console.log('err' + err);})
             })
          })
