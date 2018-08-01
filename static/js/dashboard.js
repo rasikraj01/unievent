@@ -40,7 +40,8 @@ let eventFormHTML = `
          <input name="society" placeholder="society" type="text" id="society"><br>
          <input name="form_link" placeholder="form_link" type="text" id="form_link"><br>
          Upload Cover Photo : <input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
-         <input name="number_of_participants" placeholder="number_of_participants" type="text" id="number_of_participants"><br>
+         <input name="min_number_of_participants" placeholder="min_number_of_participants" type="text" id="min_number_of_participants"><br>
+         <input name="max_number_of_participants" placeholder="max_number_of_participants" type="text" id="max_number_of_participants"><br>
          <input name="date" placeholder="date" type="date" id="date"><br>
          <input name="prize_description" placeholder="prize_description" type="text" id="prize_description"><br>
          <input type="text" name="tags" placeholder="add tags on lowercase seprated by comma" id="tags"><br>
@@ -149,7 +150,8 @@ createEvent.addEventListener('click', () => {
    const  description = document.getElementById('description');
    const form_link = document.getElementById('form_link');
    //const cover_link = document.getElementById('cover_link');
-   const number_of_participants = document.getElementById('number_of_participants');
+   const max_number_of_participants = document.getElementById('max_number_of_participants');
+   const min_number_of_participants = document.getElementById('min_number_of_participants');
    const date = document.getElementById('date');
    const prize_description = document.getElementById('prize_description');
    const event_incharge = document.getElementById('event_incharge');
@@ -211,7 +213,10 @@ createEvent.addEventListener('click', () => {
                      link: downloadImg.downloadURL,
                      name : downloadImg.fullpath
                   },
-                  number_of_participants: number_of_participants.value,
+                  number_of_participants: {
+                     max : max_number_of_participants.value,
+                     min : min_number_of_participants.value
+                  },
                   date: date.value,
                   prize_description: prize_description.value,
                   tags :tags.value.split(','),
@@ -251,7 +256,8 @@ function editEvent(id) {
             <img src="${result.data.cover_photo.link}" class="cover-pic" height="100">
             <input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
             <input name="form_link" placeholder="form_link" type="text" id="form_link" value="${result.data.form_link}"><br>
-            <input name="number_of_participants" placeholder="number_of_participants" type="text" id="number_of_participants" value="${result.data.number_of_participants}"><br>
+            <input name="min_number_of_participants" placeholder="min_number_of_participants" type="text" id="min_number_of_participants" value="${result.data.number_of_participants.min}"><br>
+            <input name="max_number_of_participants" placeholder="max_number_of_participants" type="text" id="max_number_of_participants" value="${result.data.number_of_participants.max}"><br>
             <input name="date" placeholder="date" type="datetime" id="date" value="${result.data.date}"><br>
             <input name="prize_description" placeholder="prize_description" type="text" id="prize_description" value="${result.data.prize_description}"> <br>
             <input type="text" name="tags" placeholder="add tags on lowercase seprated by comma" id="tags" value="${result.data.tags}"><br>
@@ -270,7 +276,8 @@ function editEvent(id) {
          const  description = document.getElementById('description');
          const form_link = document.getElementById('form_link');
          //const cover_link = document.getElementById('cover_link');
-         const number_of_participants = document.getElementById('number_of_participants');
+         const max_number_of_participants = document.getElementById('max_number_of_participants');
+         const min_number_of_participants = document.getElementById('min_number_of_participants');
          const date = document.getElementById('date');
          const prize_description = document.getElementById('prize_description');
          const editEventSubmit = document.getElementById('editEventSubmit');
@@ -366,7 +373,10 @@ function editEvent(id) {
                      link: downloadImg.downloadURL,
                      name : downloadImg.fullpath
                   },
-                  number_of_participants: number_of_participants.value,
+                  number_of_participants: {
+                     max : max_number_of_participants.value,
+                     min : min_number_of_participants.value
+                  },
                   date: date.value,
                   prize_description: prize_description.value,
                   tags :tags.value.split(','),
@@ -416,7 +426,8 @@ function deleteEvent(id) {
                      <h4>Description : <span>${key.description}</span></h4>
                      <h4>Form Link : <span>${key.form_link}</span></h4>
                      <h4>Cover Photo : <span><img src="${key.cover_photo.link}" height="100" alt="${key.cover_photo.name}" /></span></h4>
-                     <h4>Number of Participants : <span>${key.number_of_participants}</span></h4>
+                     <h4>Min. Number of Participants : <span>${key.number_of_participants.min}</span></h4>
+                     <h4>Max. Number of Participants : <span>${key.number_of_participants.max}</span></h4>
                      <h4>Date : <span>${key.date}</span></h4>
                      <h4>Prize Description : <span>${key.prize_description}</span></h4>
                      <h4>Tags : <span>${tagsHTML}</span></h4>
@@ -455,7 +466,8 @@ listEvents.addEventListener('click', () => {
             <h4>Description : <span>${key.description}</span></h4>
             <h4>Form Link : <span>${key.form_link}</span></h4>
             <h4>Cover Photo : <span><img src="${key.cover_photo.link}" height="100" alt="${key.cover_photo.name}" /></span></h4>
-            <h4>Number of Participants : <span>${key.number_of_participants}</span></h4>
+            <h4>Min. Number of Participants : <span>${key.number_of_participants.min}</span></h4>
+            <h4>Max. Number of Participants : <span>${key.number_of_participants.max}</span></h4>
             <h4>Date : <span>${key.date}</span></h4>
             <h4>Prize Description : <span>${key.prize_description}</span></h4>
             <h4>Tags : <span>${tagsHTML}</span></h4>

@@ -55,7 +55,10 @@ router.post('/', passport.authenticate('jwt', {session : true}) , acc_type_autho
             name: req.body.cover_photo.name,
             link: req.body.cover_photo.link
          },
-         number_of_participants : req.body.number_of_participants,
+         number_of_participants : {
+            max: req.body.number_of_participants.max,
+            min: req.body.number_of_participants.min
+         },
          date : req.body.date,
          prize_description : req.body.prize_description,
          tags: req.body.tags,
@@ -91,7 +94,10 @@ router.put('/:id', passport.authenticate('jwt', {session : true}) , acc_type_aut
                      name: req.body.cover_photo.name,
                      link: req.body.cover_photo.link
                   },
-                  number_of_participants : req.body.number_of_participants,
+                  number_of_participants : {
+                     max: req.body.number_of_participants.max,
+                     min: req.body.number_of_participants.min
+                  },
                   date : req.body.date,
                   prize_description : req.body.prize_description,
                   tags: req.body.tags,

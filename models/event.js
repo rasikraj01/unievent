@@ -40,8 +40,14 @@ const eventSchema = mongoose.Schema({
       }
    },
     number_of_participants :{
-      type:Number,
-      required: true
+      max:{
+            type:Number,
+            required: true
+          },
+      min:{
+            type:Number,
+            required: true
+          }
    },
    date : {
       type: Date,
