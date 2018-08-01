@@ -19,7 +19,6 @@ require('./config/passport-setup')(passport)
 
 TODO:
 3. Keys protection -- heroku enviroment variables
-5. Data Validations
 9. Edge Cases review
 22. token expiration time :  https://stackoverflow.com/questions/27978868/destroy-cookie-nodejs
 
