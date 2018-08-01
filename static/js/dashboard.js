@@ -124,8 +124,12 @@ profile.addEventListener('click', () => {
                url:'/api/profile/',
                data : data,
             }).then((result) => {
-                  submit.style.background = '#4CAF50';
-                  location.reload();
+                  if (result.data._id != null) {
+                           submit.style.background = '#4CAF50';
+                           location.reload();
+                  }else{
+                     console.log(result.data);
+                  }
                })
                .catch((err) => {console.log(err);submit.style.background = 'red';})
       })
