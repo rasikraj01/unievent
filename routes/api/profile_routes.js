@@ -8,8 +8,7 @@ const Profile = require('../../models/profile');
 
 const router = express.Router();
 
-
-const validateRegisterInput = require('../../validation/profile');
+const validateProfileInput = require('../../validation/profile');
 
 // get current user Profile
 router.get('/', passport.authenticate('jwt', {session:false}), (req, res) => {
@@ -30,7 +29,7 @@ router.get('/', passport.authenticate('jwt', {session:false}), (req, res) => {
 
 // create a profile for the current user
 router.post('/', passport.authenticate('jwt', {session:false, failureRedirect:'/organizer/login'}), (req, res) => {
-   const {errs, isValid} = validateRegisterInput(req.body);
+   const {errs, isValid} = validateProfileInput(req.body);
 
    if(!isValid){ // check validation // if errs is true
       errs._id = null;
@@ -64,7 +63,7 @@ router.post('/', passport.authenticate('jwt', {session:false, failureRedirect:'/
 
 //Edit a profile
 router.patch('/', passport.authenticate('jwt', {session: false, failureRedirect:'/organizer/login'}), (req, res) => {
-   const {errs, isValid} = validateRegisterInput(req.body);
+   const {errs, isValid} = validateProfileInput(req.body);
 
    if(!isValid){ // check validation // if errs is true
       errs._id = null;

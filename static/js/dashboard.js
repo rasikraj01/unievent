@@ -46,7 +46,7 @@ let eventFormHTML = `
          <input name="prize_description" placeholder="prize_description" type="text" id="prize_description"><br>
          <input type="text" name="tags" placeholder="add tags on lowercase seprated by comma" id="tags"><br>
          <input name="event_incharge" placeholder="Event Incharge Name" type="text" id="event_incharge"><br>
-         <input type="text" id="mobile_number" name="mobile_number" value="" placeholder="Event Incharge Mobile Number">
+         <input type="text" id="mobile_number" name="mobile_number" value="" placeholder="Event Incharge Mobile Number" maxlength="10">
 
          <progress value="0" max="100" id="progressBar"></progress>
          <input type="submit" name="register" value="Create Event" id="newEventSubmit" class="file-submit">
@@ -167,6 +167,8 @@ createEvent.addEventListener('click', () => {
    }
    newEventSubmit.addEventListener('click', (e) => {
 
+      e.preventDefault();
+      if(document.getElementById('file-select').files[0]){
       const filesize = document.getElementById('file-select').files[0].size;
       var handleFileUploadSubmit = new Promise(function(resolve, reject){
          if (filesize <= 500000) {
@@ -199,7 +201,6 @@ createEvent.addEventListener('click', () => {
 
       });
 
-      e.preventDefault();
       handleFileUploadSubmit.then((downloadImg) => {
                console.log(downloadImg);
                let data = {
@@ -227,9 +228,22 @@ createEvent.addEventListener('click', () => {
 
                }
                axios.post('/api/event', data).then((result) => {
-                     document.getElementById("progressBar").value = 100;
-                     newEventSubmit.style.background = '#4CAF50'
-                     console.log('sent');
+                  if(result.data._id != null){
+                           document.getElementById("progressBar").value = 100;
+                           newEventSubmit.style.background = '#4CAF50'
+                           console.log('sent');
+                  }else{
+                     console.log(result.data);
+                     var desertRef = storageRef.child(downloadImg.fullpath);
+                     // Delete the file
+                     desertRef.delete().then(function() {
+                     // File deleted successfully
+                     console.log('del');
+                     }).catch(function(error) {
+                     console.log(error);
+                     })
+                     document.getElementById("progressBar").value = 0;
+                  }
                   })
                   .catch(() => {console.log('err');})
       }).catch((err) => {
@@ -237,6 +251,10 @@ createEvent.addEventListener('click', () => {
                newEventSubmit.style.background = 'red';
                console.log(err);
       })
+   }else{
+      console.log('Please Add A cover Photo');
+      document.getElementById("progressBar").value = 0;
+   }
    })
 })
 
