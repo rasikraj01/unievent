@@ -85,6 +85,35 @@ router.post('/login', (req, res) => {
 });
 
 
+router.post('/changePassword', passport.authenticate('jwt', {session : false}), (req, res) => {
+
+   const old_password = req.body.old_password;
+   const new_password = req.body.new_password;
+
+   User.findById(req.user.id).then((user_match) => {
+      if(user_match){
+         bcrypt.compare(old_password, user_match.password).then((match) => {
+            if(match){
+               bcrypt.genSalt(10, (err, salt) => {
+                  bcrypt.hash(new_password, salt, (err, hash) => {
+                     if (err) throw err;
+                     User.update({_id: req.user.id}, {$set : {password : hash}}).then((result) => {
+                        result._id = true;
+                        res.json(result);
+                     }).catch((err) => {console.log(err); res.json({message : 'Unable to change Password', _id : null})})
+                  })
+               })
+            }
+            else{
+               res.json({_id : null , message : 'Old and New Passwords Do not Match'})
+            }
+         })
+      }
+      else{
+         res.json({_id : null , message : 'User Not Found'});
+      }
+   }).catch((err) => {console.log(err); res.json({_id : null , message : 'User Not Found'})})
+});
 // to get the current user
 router.get('/current', passport.authenticate('jwt', {session : false}),(req, res) => {
    //User.findOne({society_email : req.user.society_email}).then((result) => {console.log(result);})
