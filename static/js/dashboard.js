@@ -25,7 +25,42 @@ const createEvent = document.getElementById('createEvent');
 const listEvents = document.getElementById('listEvents');
 const currentUser = document.getElementById('currentUser');
 const content = document.getElementById('content');
+const changePassword = document.getElementById('changePassword');
 
+let changePasswordForm = `
+   <h3>Change Password</h3>
+   <form id="changePasswordForm">
+      <input name="old_password" placeholder="old_password" type="password" id="old_password"><br>
+      <input name="new_password" placeholder="new_password" type="password" id="new_password"><br>
+      <input name="confirm_password" placeholder="confirm_password" type="password" id="confirm_password"><br>
+      <input type="submit" name="register" value="Change Password" id="changePasswordFSubmit" class="file-submit">
+   </form>`
+
+changePassword.addEventListener('click', () => {
+   content.innerHTML = changePasswordForm;
+   const old_password = document.getElementById('old_password');
+   const new_password = document.getElementById('new_password');
+   const confirm_password = document.getElementById('confirm_password');
+
+   axios({
+      method : 'post',
+      url: '/api/user/changePassword',
+      data
+   }).then((result) => {
+      if(result.data._id != null){
+         localStorage.removeItem("user");
+         axios({
+            method:'get',
+            url:'/api/user/logout'
+         }).then((res) => {
+            if (res.data.logout)
+                  window.location.href = '/organizer/login';
+         }
+      }else{
+         console.log(result.data);
+      }
+   }).catch((err) => {console.log(err);})
+})
 currentUser.addEventListener('click', () => {
    content.innerHTML = '<h2 class="welcome">Welcome to Your DashBoard ! </h2>'
 })
