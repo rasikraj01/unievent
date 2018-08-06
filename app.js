@@ -21,6 +21,8 @@ TODO:
 3. Keys protection -- heroku enviroment variables
 9. Edge Cases review
 22. token expiration time :  https://stackoverflow.com/questions/27978868/destroy-cookie-nodejs
+24. change password
+25. code validation ?
 
 ****************/
 

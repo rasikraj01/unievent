@@ -106,6 +106,7 @@ profile.addEventListener('click', () => {
             console.log('no prev data');
          }else{
          society_name.value = result.data.society_name;
+         society_name.setAttribute('disabled', 'disabled');
          college.value = result.data.college;
          president_name.value = result.data.president_name;
          p_mobile_number.value = result.data.mobile_number;
@@ -142,7 +143,6 @@ createEvent.addEventListener('click', () => {
    content.innerHTML = eventFormHTML;
 
 
-
    const event_name = document.getElementById('event_name');
    const host_college = document.getElementById('host_college');
    const venue = document.getElementById('venue');
@@ -158,6 +158,11 @@ createEvent.addEventListener('click', () => {
    const mobile_number = document.getElementById('mobile_number');
    const tags = document.getElementById('tags');
    const newEventSubmit = document.getElementById('newEventSubmit');
+
+      axios.get('/api/profile/').then((result) => {
+         society.value = result.data.society_name;
+         society.setAttribute('disabled', 'disabled');
+      })
    var readURL = function(input) {
   if (input.files && input.files[0]) {
       var reader = new FileReader();
