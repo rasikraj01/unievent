@@ -24,11 +24,11 @@ module.exports = function validateEventInput (data) {
    console.log(data);
    if(!Validator.isURL(data.form_link)) errs.form_link = 'Please Enter a Valid Form Link';
    if(!Validator.isLength(data.host_college, {max:120})) errs.host_college = 'College Name cannot be More than 120 characters.'
-   if(!Validator.isLength(data.description, {max:550})) errs.description = 'Description cannot be More than 550 characters.'
+   if(!Validator.isLength(data.description, {max:1500})) errs.description = 'Description cannot be More than 1500 characters.'
    if(!Validator.isLength(data.society, {max:120})) errs.society = 'Society Name cannot be More than 120 characters.'
    if(!Validator.isLength(data.venue, {max:120})) errs.venue = 'Venue cannot be More than 120 characters.'
    if(Validator.isNumeric(data.number_of_participants.min) && Validator.isNumeric(data.number_of_participants.max)){
-      if(data.number_of_participants.min > data.number_of_participants.max){
+      if(parseInt(data.number_of_participants.min) > parseInt(data.number_of_participants.max)){
                errs.number_of_participants_min = 'Min cannot be more than max';
             }
    }
@@ -38,7 +38,7 @@ module.exports = function validateEventInput (data) {
    if(!Validator.isLength(data.prize_description, {max: '240'}))  errs.prize_description = 'Prize Description cannot be More than 240 characters.';
    if(!Validator.isLength(data.event_incharge.name, {max: '120'}))   errs.event_incharge_name = 'Name cannot be More than 120 characters.';
    if(!Validator.isMobilePhone(data.event_incharge.mobile_number.toString(), ['en-IN']))  errs.event_incharge_name = 'mob no';
-
+   if(parseInt(data.number_of_participants.min) <= 0) errs.number_of_participants_min = 'Minimun number of participants has to be more than 0';
    //required
    if(Validator.isEmpty(data.event_name)) errs.event_name = 'Event Name is required';
    if(Validator.isEmpty(data.host_college))  errs.host_college = 'Host College is required';
