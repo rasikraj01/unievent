@@ -85,7 +85,7 @@ let eventFormHTML = `
          <input autofocus type="text" name="event_name" value="" placeholder="event_name" id="event_name"><br>
          <input name="host_college" placeholder="host_college" type="text" id="host_college"><br>
          <input name="venue" placeholder="venue" type="text" id="venue"><br>
-         <input name="description" placeholder="description" type="text" id="description"><br>
+         <textarea name="description" placeholder="description"  rows="8" cols="80" id="description"></textarea><br>
          <input name="society" placeholder="society" type="text" id="society"><br>
          <input name="form_link" placeholder="form_link" type="text" id="form_link"><br>
          Upload Cover Photo : <img class="cover-pic" src="" height="100"><input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
@@ -274,7 +274,7 @@ createEvent.addEventListener('click', () => {
                   host_college : host_college.value,
                   venue : venue.value,
                   society : society.value,
-                  description : description.value,
+                  description : JSON.stringify(description.value),
                   form_link : form_link.value,
                   cover_photo:{
                      link: downloadImg.downloadURL,
@@ -328,6 +328,7 @@ createEvent.addEventListener('click', () => {
 function editEvent(id) {
    axios.get(`/api/event/${id}`)
       .then((result) => {
+         let description_value = JSON.parse(result.data.description);
          // add regex to date field
          let editFormHTML =
          `  <h3>Edit Event</h3>
@@ -336,7 +337,7 @@ function editEvent(id) {
             <input name="host_college" placeholder="host_college" type="text" id="host_college" value="${result.data.host_college}"><br>
             <input name="venue" placeholder="venue" type="text" id="venue" value="${result.data.venue}"><br>
             <input name="society" placeholder="society" type="text" id="society" value="${result.data.society}"><br>
-            <input name="description" placeholder="description" type="text" id="description" value="${result.data.description}"><br>
+            <textarea name="description" placeholder="description"  rows="8" cols="80" id="description">${description_value}</textarea><br>
             <img src="${result.data.cover_photo.link}" class="cover-pic" height="100">
             <input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
             <input name="form_link" placeholder="form_link" type="text" id="form_link" value="${result.data.form_link}"><br>
@@ -456,7 +457,7 @@ function editEvent(id) {
                   host_college : host_college.value,
                   venue : venue.value,
                   society : society.value,
-                  description : description.value,
+                  description : JSON.stringify(description.value),
                   form_link : form_link.value,
                   cover_photo:{
                      link: downloadImg.downloadURL,
@@ -562,7 +563,8 @@ listEvents.addEventListener('click', () => {
       let data = "";
       console.log(result.data);
       result.data.forEach((key) => {
-      let tagsHTML = ""
+      let tagsHTML = "";
+      let description_value = JSON.parse(key.description);
       key.tags.forEach((keyx) => {tagsHTML += `#${keyx}`})
          data +=
          `<li>
@@ -570,7 +572,7 @@ listEvents.addEventListener('click', () => {
             <h4>Host College: <span>${key.host_college}</span></h4>
             <h4>Venue : <span>${key.venue}</span></h4>
             <h4>Society : <span>${key.society}</span></h4>
-            <h4>Description : <span>${key.description}</span></h4>
+            <h4>Description : <span>${description_value}</span></h4>
             <h4>Form Link : <span>${key.form_link}</span></h4>
             <h4>Cover Photo : <span><img src="${key.cover_photo.link}" height="100" alt="${key.cover_photo.name}" /></span></h4>
             <h4>Min. Number of Participants : <span>${key.number_of_participants.min}</span></h4>
