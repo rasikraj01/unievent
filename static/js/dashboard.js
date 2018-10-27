@@ -96,7 +96,8 @@ let eventFormHTML = `
          </div>
          <input name="society" placeholder="society" type="text" id="society"><br>
          <input name="form_link" placeholder="form_link" type="text" id="form_link"><br>
-         Upload Cover Photo : <img class="cover-pic" src="" height="100"><input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
+         <div>Upload Cover Photo : <img class="cover-pic" src="" height="100"><input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/>
+         </div><br>
          <input name="min_number_of_participants" placeholder="min_number_of_participants" type="text" id="min_number_of_participants"><br>
          <input name="max_number_of_participants" placeholder="max_number_of_participants" type="text" id="max_number_of_participants"><br>
          <input name="date" placeholder="date" type="date" id="date"><br>
