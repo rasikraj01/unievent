@@ -90,7 +90,9 @@ let eventFormHTML = `
          <input autofocus type="text" name="event_name" value="" placeholder="event_name" id="event_name"><br>
          <input name="host_college" placeholder="host_college" type="text" id="host_college"><br>
          <input name="venue" placeholder="venue" type="text" id="venue"><br>
-         <textarea name="description" placeholder="description"  rows="8" cols="80" id="description"></textarea><br>
+         <div class="d-flex justify-content-center text-center p-3">
+         <textarea name="description" placeholder="description" id="description"></textarea><br>
+         </div>
          <input name="society" placeholder="society" type="text" id="society"><br>
          <input name="form_link" placeholder="form_link" type="text" id="form_link"><br>
          Upload Cover Photo : <img class="cover-pic" src="" height="100"><input type="file" id="file-select" accept="image/jpeg, image/jpg" id="cover_link"/><br>
