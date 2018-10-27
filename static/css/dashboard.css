@@ -1,179 +1,178 @@
-@import url('https://fonts.googleapis.com/css?family=Josefin+Slab');
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
+@import url("https://fonts.googleapis.com/css?family=Josefin+Slab");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400");
 
-*{
-   margin: 0;
-   padding: 0;
-   font-family: 'roboto';
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "roboto";
 }
-.wrapper{
-   display: grid;
-   height: 100vh;
-   grid-template-columns: 2fr 9fr;
-   grid-template-rows: 1fr 11fr;
+.wrapper {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 2fr 9fr;
+  grid-template-rows: 1fr 11fr;
 }
-nav{
-   background: #e53935;
-   grid-column: 1/6;
-   color:white;
-   grid-row: 1/2;
+nav {
+  background: #e53935;
+  grid-column: 1/6;
+  color: white;
+  grid-row: 1/2;
 }
-nav h1{
-   font-family: 'Josefin Slab', serif;
-   font-size: 40px;
-   padding-top: 1rem;
-   padding-left:1rem;
-}
-
-nav ul{
-   position: relative;
-   list-style-type: none;
-}
-.sidebar{
-   background: #424242;
-   grid-row: 2/8;
-}
-.sidebar ul li{
-    list-style: none;
-    font-size:20px;
-    text-align:center;
-    font-family: 'roboto', sans-serif;
-    padding:5px;
-    color: #e3e3e3;
-    font-weight: 300 ;
-    transition : all .4s;
-
-}
-.sidebar ul li:first-child{
-    font-style:italic;
-    font-size:25px;
-    /* boder */
-    font-weight:300;
+nav h1 {
+  font-family: "Josefin Slab", serif;
+  font-size: 40px;
+  padding-top: 1rem;
+  padding-left: 1rem;
 }
 
-.sidebar ul li:hover{
-    cursor:pointer;
-    color:#ffffff;
-    background: #312525;
+nav ul {
+  position: relative;
+  list-style-type: none;
 }
-.sidebar ul li:first-child:hover{
-   color: #e3e3e3;
-   cursor: default;
-   background: none;
+.sidebar {
+  background: #424242;
+  grid-row: 2/8;
+}
+.sidebar ul li {
+  list-style: none;
+  font-size: 20px;
+  text-align: center;
+  font-family: "roboto", sans-serif;
+  padding: 5px;
+  color: #e3e3e3;
+  font-weight: 300;
+  transition: all 0.4s;
+}
+.sidebar ul li:first-child {
+  font-style: italic;
+  font-size: 25px;
+  /* boder */
+  font-weight: 300;
 }
 
-
-.sidebar ul li:last-child:hover{
-    cursor:pointer;
-    color:#ffffff;
-    background: #e63935;
+.sidebar ul li:hover {
+  cursor: pointer;
+  color: #ffffff;
+  background: #312525;
+}
+.sidebar ul li:first-child:hover {
+  color: #e3e3e3;
+  cursor: default;
+  background: none;
 }
 
-.content{
-   background: #fafafa;
+.sidebar ul li:last-child:hover {
+  cursor: pointer;
+  color: #ffffff;
+  background: #e63935;
 }
 
-.welcome, .noEvent{
-    position: relative;
-    text-align: center;
-    margin-top: 20vh;
-    color: #757575;
-    font-size: 30px;
-    font-weight: 100;
+.content {
+  background: #fafafa;
+}
+
+.welcome,
+.noEvent {
+  position: relative;
+  text-align: center;
+  margin-top: 20vh;
+  color: #757575;
+  font-size: 30px;
+  font-weight: 100;
 }
 .content h3 {
-    text-align: center;
-    font-size:40px;
-    margin-top: 5vh;
-    text-transform: uppercase;
-    color: #616161;
-    font-family: 'open sans';
-    font-weight: 300;
+  text-align: center;
+  font-size: 40px;
+  margin-top: 5vh;
+  text-transform: uppercase;
+  color: #616161;
+  font-family: "open sans";
+  font-weight: 300;
 }
-input{
-   position: relative;
-   outline: none;
-   display: block;
-   width: 10rem;
-   height: 2rem;
-   margin: auto;
-   font-size: .8rem;
-   padding: 5px;
-}
-
-input:first-child{
-   margin-top: 2em;
+input {
+  position: relative;
+  outline: none;
+  display: block;
+  width: 10rem;
+  height: 2rem;
+  margin: auto;
+  font-size: 0.8rem;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
 }
 
-input[type="submit"]{
-   border-radius: .3em;
-   margin-top: 10px;
-   color: white;
-   border: none;
-   background: #455a64;
-   text-decoration: none;
-   cursor: pointer;
-   outline: none;
-   margin-bottom: 10vh;
-   transition: all .4s;
+input:first-child {
+  margin-top: 2em;
+}
+
+input[type="submit"] {
+  border-radius: 0.3em;
+  margin-top: 10px;
+  color: white;
+  border: none;
+  background: #455a64;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 10vh;
+  transition: all 0.4s;
 }
 
 input[type="submit"]:hover {
-    transform:scale(1.1);
-    background:#424242;
+  transform: scale(1.1);
+  background: #424242;
 }
-.content li{
-    list-style:none;
-    background:#E0E0E0;
-    margin:3vw;
-    margin-top:3vh;
-    color: #424242;
-
-}
-
-.content li:first-child{
-    margin-top:5vh;
+.content li {
+  list-style: none;
+  background: #e0e0e0;
+  margin: 3vw;
+  margin-top: 3vh;
+  color: #424242;
 }
 
-h4:first-child{
-    text-align: center;
-    font-size:40px;
-    margin-top: 5vh;
-    text-transform: uppercase;
-    font-family: 'open sans';
-
-}
-h4{
-    font-weight:300;
-    font-family: 'open sans';
-    padding:2px 10px;
-}
-.action{
-    margin:20px ;
-    height:3em;
-    position:relative;
-}
-.action button{
-   border-radius: .3em;
-   position:absolute;
-   right:0;
-   color: white;
-   border: none;
-   background: #455a64;
-   padding: 10px;
-   text-decoration: none;
-   cursor: pointer;
-   outline: none;
-   transition: all .4s;
-}
-.action .edit{
-    margin-right:70px;
-    background: #4CAF50;
+.content li:first-child {
+  margin-top: 5vh;
 }
 
-.action .delete{
-    background: #D32F2F;
+h4:first-child {
+  text-align: center;
+  font-size: 40px;
+  margin-top: 5vh;
+  text-transform: uppercase;
+  font-family: "open sans";
+}
+h4 {
+  font-weight: 300;
+  font-family: "open sans";
+  padding: 2px 10px;
+}
+.action {
+  margin: 20px;
+  height: 3em;
+  position: relative;
+}
+.action button {
+  border-radius: 0.3em;
+  position: absolute;
+  right: 0;
+  color: white;
+  border: none;
+  background: #455a64;
+  padding: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.4s;
+}
+.action .edit {
+  margin-right: 70px;
+  background: #4caf50;
+}
+
+.action .delete {
+  background: #d32f2f;
 }
 .action button:hover {
-    transform:scale(1.1);
+  transform: scale(1.1);
 }
