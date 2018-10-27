@@ -91,7 +91,8 @@ let eventFormHTML = `
          <input name="host_college" placeholder="host_college" type="text" id="host_college"><br>
          <input name="venue" placeholder="venue" type="text" id="venue"><br>
          <div class="d-flex justify-content-center text-center p-3">
-         <textarea name="description" placeholder="description" id="description"></textarea><br>
+         <textarea name="description" placeholder="description" id="description" style="width: 300px; border-radius:2px; height:100px;
+         font-size:0.8rem; border-color:#ddd;"></textarea><br>
          </div>
          <input name="society" placeholder="society" type="text" id="society"><br>
          <input name="form_link" placeholder="form_link" type="text" id="form_link"><br>
